@@ -97,28 +97,6 @@
                 inset 0 0 0 1px rgba(255,255,255,.14),
                 0 12px 26px rgba(0,0,0,.10);
         }
-        .nav-link-home .nav-icon {
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 17px;
-            background: rgba(255,255,255,.16);
-            color: #fff;
-            padding: 0;
-        }
-        .nav-link-home .nav-icon svg {
-            display: block;
-            width: 24px;
-            height: 24px;
-            stroke-width: 2.45;
-            transform: translate(1.5px, 1px);
-        }
-        .nav-link-home strong {
-            font-size: 15px;
-            font-weight: 950;
-        }
         .nav-icon {
             width: 38px;
             height: 38px;
@@ -139,6 +117,29 @@
         }
         .nav-link strong { display: block; font-size: 14px; }
         .nav-link span { display: block; margin-top: 2px; color: rgba(255,255,255,.48); font-size: 11px; font-weight: 700; }
+        .nav-link-home .nav-icon {
+            width: 42px;
+            height: 42px;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 16px;
+            background: rgba(255,255,255,.16);
+            color: #fff;
+            padding: 0;
+            line-height: 0;
+        }
+        .nav-link-home .nav-icon svg {
+            display: block;
+            width: 21px;
+            height: 21px;
+            stroke-width: 2.5;
+            transform: none;
+        }
+        .nav-link-home strong {
+            font-size: 15px;
+            font-weight: 950;
+            color: #fff;
+        }
         .nav-group {
             border-radius: 24px;
             overflow: hidden;

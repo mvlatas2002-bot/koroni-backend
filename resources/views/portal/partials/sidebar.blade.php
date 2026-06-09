@@ -14,7 +14,7 @@
         ->count();
 
     $icons = [
-        'home' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 4l8 7.5v7.2a1.8 1.8 0 0 1-1.8 1.8h-3.4v-6.1H9.2v6.1H5.8A1.8 1.8 0 0 1 4 18.7Z"/></svg>',
+        'home' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.8 11.2 12 4.4l8.2 6.8M5.8 10.2v8a1.6 1.6 0 0 0 1.6 1.6h2.8v-5.4h3.6v5.4h2.8a1.6 1.6 0 0 0 1.6-1.6v-8"/></svg>',
         'sales' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18V6.8A2.8 2.8 0 0 1 7.8 4h8.4A2.8 2.8 0 0 1 19 6.8V18M8.5 8h7M8.5 12h7M8.5 16h3"/></svg>',
         'discounts' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 18 12-12M7.5 9.2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm9 9.6a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>',
         'leave' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v3M17 4v3M5.5 8h13M6.8 6h10.4A2.3 2.3 0 0 1 19.5 8.3v10.4a2.3 2.3 0 0 1-2.3 2.3H6.8a2.3 2.3 0 0 1-2.3-2.3V8.3A2.3 2.3 0 0 1 6.8 6Zm2.2 6.2h3.8v3.8H9Z"/></svg>',
