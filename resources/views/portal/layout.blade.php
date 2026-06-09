@@ -116,7 +116,8 @@
             stroke-linejoin: round;
         }
         .nav-link strong { display: block; font-size: 14px; }
-        .nav-link span { display: block; margin-top: 2px; color: rgba(255,255,255,.48); font-size: 11px; font-weight: 700; }
+        .nav-link > span:not(.nav-icon) { display: block; margin-top: 0; color: inherit; font-size: inherit; font-weight: inherit; }
+        .nav-link > span:not(.nav-icon) > span { display: block; margin-top: 2px; color: rgba(255,255,255,.48); font-size: 11px; font-weight: 700; }
         .nav-link-home .nav-icon {
             width: 42px;
             height: 42px;
@@ -127,6 +128,7 @@
             color: #fff;
             padding: 0;
             line-height: 0;
+            margin-top: 0;
         }
         .nav-link-home .nav-icon svg {
             display: block;
