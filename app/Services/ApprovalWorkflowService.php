@@ -67,6 +67,12 @@ class ApprovalWorkflowService
                 ]);
             }
 
+            if ($request->requester_id === $actor->id) {
+                throw ValidationException::withMessages([
+                    'decision' => 'Ο δημιουργός της αίτησης δεν μπορεί να εγκρίνει ή να απορρίψει τη δική του αίτηση.',
+                ]);
+            }
+
             $activeStep = $request->steps->firstWhere('status', 'pending');
 
             if (!$activeStep) {
@@ -127,6 +133,7 @@ class ApprovalWorkflowService
     {
         return ApprovalRequest::with(['requester.role', 'currentApprover.role', 'steps.approver.role'])
             ->where('status', 'pending')
+            ->where('requester_id', '!=', $user->id)
             ->when(!$this->isSystemAdmin($user), function ($query) use ($user) {
                 $query->where(function ($subQuery) use ($user) {
                     $subQuery
@@ -197,7 +204,9 @@ class ApprovalWorkflowService
         if ($rule) {
             $fallbackRole = $rule->required_role_code
                 ?? ($rule->authority_type === 'management' ? 'MANAGEMENT' : 'COMMERCIAL_DIRECTOR');
-            $approver = $rule->approver ?: $this->firstUserWithRole([$fallbackRole, 'MANAGEMENT', 'SYSTEM_ADMIN']);
+            $approver = $rule->approver && $rule->approver->id !== $actor->id
+                ? $rule->approver
+                : $this->firstUserWithRole([$fallbackRole, 'MANAGEMENT', 'SYSTEM_ADMIN'], $actor->id);
 
             return [[
                 'step_number' => 1,
@@ -210,7 +219,7 @@ class ApprovalWorkflowService
         }
 
         if ($discountPercent < self::COMMERCIAL_APPROVAL_LIMIT) {
-            $approver = $this->firstUserWithRole(['COMMERCIAL_DIRECTOR', 'MANAGEMENT', 'SYSTEM_ADMIN']);
+            $approver = $this->firstUserWithRole(['COMMERCIAL_DIRECTOR', 'MANAGEMENT', 'SYSTEM_ADMIN'], $actor->id);
 
             return [[
                 'step_number' => 1,
@@ -222,7 +231,7 @@ class ApprovalWorkflowService
             ]];
         }
 
-        $approver = $this->firstUserWithRole(['MANAGEMENT', 'SYSTEM_ADMIN']);
+        $approver = $this->firstUserWithRole(['MANAGEMENT', 'SYSTEM_ADMIN'], $actor->id);
 
         return [[
             'step_number' => 1,
@@ -302,11 +311,12 @@ class ApprovalWorkflowService
         };
     }
 
-    private function firstUserWithRole(array $roleCodes): ?User
+    private function firstUserWithRole(array $roleCodes, ?int $exceptUserId = null): ?User
     {
         foreach ($roleCodes as $roleCode) {
             $user = User::with('role')
                 ->where('is_active', true)
+                ->when($exceptUserId, fn ($query) => $query->whereKeyNot($exceptUserId))
                 ->whereHas('role', fn ($query) => $query->where('code', $roleCode))
                 ->orderBy('name')
                 ->first();

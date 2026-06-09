@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\ApprovalWorkflowService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
 class ApprovalWorkflowTest extends TestCase
@@ -88,5 +89,36 @@ class ApprovalWorkflowTest extends TestCase
 
         $this->assertSame('approved', $request->status);
         $this->assertSame(0, $request->steps()->count());
+    }
+
+    public function test_requester_cannot_approve_their_own_pending_request(): void
+    {
+        $role = Role::create([
+            'code' => 'COMMERCIAL_DIRECTOR',
+            'name' => 'Commercial Director',
+            'is_system' => true,
+        ]);
+
+        $requester = User::create([
+            'name' => 'Self Approver Test',
+            'email' => 'self-approver@example.test',
+            'password' => Hash::make('secret'),
+            'role_id' => $role->id,
+            'is_active' => true,
+        ]);
+
+        $workflow = app(ApprovalWorkflowService::class);
+        $request = $workflow->create($requester->load('role'), [
+            'workflow_type' => 'discount',
+            'title' => 'Discount needs approval',
+            'discount_percent' => 8,
+        ]);
+
+        $this->assertSame('pending', $request->status);
+        $this->assertFalse($workflow->pendingFor($requester)->contains('id', $request->id));
+
+        $this->expectException(ValidationException::class);
+
+        $workflow->decide($requester->load('role'), $request, 'approve');
     }
 }

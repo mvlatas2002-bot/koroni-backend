@@ -11,7 +11,6 @@
                 <h1>{{ $module['title'] }}</h1>
                 <p class="muted" style="margin-top:10px;font-size:17px;">{{ $module['summary'] }}</p>
             </div>
-            <a class="button" href="{{ route('portal.modules.index') }}">Όλες οι λειτουργίες</a>
         </header>
 
         @if ($moduleKey === 'APPROVALS')
@@ -21,12 +20,6 @@
                         <div class="eyebrow">Εγκρίσεις</div>
                         <h2>Αιτήσεις και αποφάσεις</h2>
                     </div>
-                    <span class="info-dot" data-tip="Οι αιτήσεις κινούνται με βάση προϊστάμενο, ρόλο και κανόνες έγκρισης. Ο χρήστης δεν χρειάζεται να βλέπει τεχνικά βήματα εδώ.">?</span>
-                </div>
-                <div class="action-row">
-                    <a class="button" href="{{ route('portal.approvals.create') }}">Νέα αίτηση</a>
-                    <a class="button" href="{{ route('portal.approvals.index') }}">Οι αιτήσεις μου</a>
-                    <a class="button" href="{{ route('portal.approvals.pending') }}">Προς έγκριση</a>
                 </div>
             </section>
         @else

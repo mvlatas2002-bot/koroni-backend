@@ -37,7 +37,6 @@
                     <div class="eyebrow">Νέος κανόνας</div>
                     <h2>Προσθήκη γραμμής approval matrix</h2>
                 </div>
-                <span class="info-dot" data-tip="Αν δεν ορίσεις συγκεκριμένο εγκριτή, το σύστημα θα ψάξει ενεργό χρήστη με τον επιλεγμένο ρόλο.">?</span>
             </div>
 
             <form method="post" action="{{ route('portal.approval-authorities.store') }}" class="portal-grid five-col">

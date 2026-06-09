@@ -37,7 +37,6 @@
                     <div class="eyebrow">{{ $mode === 'pending' ? 'Ουρά απόφασης' : 'Ιστορικό' }}</div>
                     <h2>{{ $requests->count() === 1 ? '1 αίτηση' : $requests->count().' αιτήσεις' }}</h2>
                 </div>
-                <span class="info-dot" data-tip="{{ $isLeave ? 'Εδώ εμφανίζονται μόνο αιτήματα άδειας.' : ($isDiscount ? 'Εδώ εμφανίζονται μόνο αιτήματα έκπτωσης.' : 'Εδώ εμφανίζονται οι γενικές αιτήσεις που σε αφορούν.') }}">?</span>
             </div>
 
             @if ($requests->isEmpty())

@@ -13,7 +13,6 @@
                     Εδώ αλλάζουν ονομασίες, τύποι και σχέσεις τμημάτων χωρίς κώδικα.
                 </p>
             </div>
-            <a class="button" href="{{ route('portal.organization.index') }}">Οργανόγραμμα</a>
         </header>
 
         @if (session('status'))
@@ -30,7 +29,6 @@
                     <div class="eyebrow">Νέα μονάδα</div>
                     <h2>Προσθήκη στη δομή</h2>
                 </div>
-                <span class="info-dot" data-tip="Για τμήματα που θα μπαίνουν σε χρήστες προτίμησε τύπο Τμήμα ή Ομάδα. Η εταιρεία είναι μόνο κορυφαίος κόμβος.">?</span>
             </div>
 
             <form method="POST" action="{{ route('portal.organization.units.store') }}" class="portal-grid five-col">

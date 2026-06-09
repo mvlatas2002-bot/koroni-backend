@@ -503,44 +503,6 @@
         .pill.red { border-color: #ffc4d1; background: #fff1f4; color: var(--red); }
         .pill.green { border-color: #b7efd9; background: #effdf7; color: var(--green); }
         .pill.amber { border-color: #ffe0a8; background: #fffbeb; color: var(--amber); }
-        .info-dot {
-            position: relative;
-            display: inline-grid;
-            place-items: center;
-            width: 20px;
-            height: 20px;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            background: #fbfdff;
-            color: var(--muted);
-            font-size: 12px;
-            font-weight: 900;
-            cursor: help;
-        }
-        .info-dot::after {
-            content: attr(data-tip);
-            position: absolute;
-            z-index: 20;
-            left: 50%;
-            bottom: calc(100% + 10px);
-            transform: translateX(-50%);
-            width: min(280px, 70vw);
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            background: var(--navy);
-            color: white;
-            box-shadow: var(--shadow);
-            padding: 10px 12px;
-            font-size: 12px;
-            line-height: 1.4;
-            font-weight: 700;
-            letter-spacing: 0;
-            text-transform: none;
-            opacity: 0;
-            pointer-events: none;
-            transition: .14s ease;
-        }
-        .info-dot:hover::after { opacity: 1; }
         .action-row {
             display: flex;
             align-items: center;
@@ -684,8 +646,7 @@
             padding: 16px 20px;
             box-shadow: 0 18px 44px rgba(22, 32, 51, .10);
         }
-        .org-company-card .eyebrow,
-        .org-company-card .info-dot {
+        .org-company-card .eyebrow {
             color: #dce8f7;
         }
         .org-company-card h2 {

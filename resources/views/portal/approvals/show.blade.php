@@ -21,7 +21,6 @@
                 <div class="eyebrow">{{ $approvalRequest->request_code }}</div>
                 <h1>{{ $approvalRequest->title }}</h1>
             </div>
-            <a class="button" href="{{ route('portal.approvals.index', ['type' => $backType]) }}">Οι αιτήσεις μου</a>
         </header>
 
         <div class="portal-grid two-col">
@@ -119,7 +118,6 @@
                         <div class="eyebrow">Ροή</div>
                         <h2>Ποιος αποφασίζει</h2>
                     </div>
-                    <span class="info-dot" data-tip="Η αίτηση περνάει μόνο από τα απαραίτητα βήματα. Αν εγκριθεί αυτόματα, δεν εμφανίζεται περιττή ουρά.">?</span>
                 </div>
 
                 <div class="compact-list">

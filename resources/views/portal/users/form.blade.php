@@ -13,7 +13,6 @@
                     Τα στοιχεία εδώ επηρεάζουν πραγματικά πρόσβαση, οργανόγραμμα και ροές εγκρίσεων.
                 </p>
             </div>
-            <a class="button" href="{{ route('portal.users.index') }}">Πίσω</a>
         </header>
 
         @if ($errors->any())
@@ -59,9 +58,6 @@
                     <div class="field">
                         <label>
                             Κωδικός
-                            @if ($mode === 'edit')
-                                <span class="info-dot" data-tip="Άφησέ το κενό αν δεν θέλεις αλλαγή κωδικού.">?</span>
-                            @endif
                         </label>
                         <input name="password" type="password" value="" @required($mode === 'create') autocomplete="new-password">
                     </div>
@@ -74,7 +70,6 @@
                         <div class="eyebrow">Ρόλος και θέση</div>
                         <h2>Πού ανήκει</h2>
                     </div>
-                    <span class="info-dot" data-tip="Ο ρόλος δίνει πρόσβαση. Το τμήμα και η θέση τροφοδοτούν οργανόγραμμα, λίστες και εγκρίσεις.">?</span>
                 </div>
 
                 <div class="portal-grid three-col">
@@ -123,7 +118,6 @@
                         <div class="eyebrow">Εγκρίσεις</div>
                         <h2>Ποιος αποφασίζει</h2>
                     </div>
-                    <span class="info-dot" data-tip="Ο προϊστάμενος είναι το πρώτο επίπεδο έγκρισης. Ο αντικαταστάτης χρησιμοποιείται όταν χρειάζεται προσωρινή κάλυψη.">?</span>
                 </div>
 
                 <div class="portal-grid three-col">

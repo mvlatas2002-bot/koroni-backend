@@ -27,10 +27,6 @@
                 <h1>{{ $pageTitle }}</h1>
                 <p class="muted" style="margin-top:10px;font-size:17px;">{{ $pageSubtitle }}</p>
             </div>
-            <div class="action-row">
-                <span class="info-dot" data-tip="{{ $isDiscount ? 'Το ποσοστό έκπτωσης δεν γράφεται χειροκίνητα. Βγαίνει από κανονική και ζητούμενη τιμή, ώστε το approval route να είναι αξιόπιστο.' : 'Η αίτηση αποθηκεύεται και δημιουργεί πραγματικά βήματα έγκρισης.' }}">?</span>
-                <a class="button" href="{{ route('portal.approvals.index', $isLeave || $isDiscount ? ['type' => $selectedWorkflow] : []) }}">Πίσω</a>
-            </div>
         </header>
 
         @if ($errors->any())
@@ -120,7 +116,6 @@
                                 <div class="eyebrow">Γρήγορη εικόνα</div>
                                 <h2>Υπολογισμός και routing</h2>
                             </div>
-                            <span class="info-dot" data-tip="Μέχρι 4% εγκρίνεται αυτόματα. Πάνω από 4% και κάτω από 15% πάει εμπορικά. Από 15% και πάνω πάει διοίκηση, εκτός αν αλλάξει το rulebook.">?</span>
                         </div>
 
                         <div class="compact-list">

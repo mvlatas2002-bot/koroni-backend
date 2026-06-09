@@ -90,11 +90,13 @@ class PortalApprovalRequestController extends Controller
         $user = $request->user()->load('role');
         $approvalRequest->load(['requester.role', 'currentApprover.role', 'steps.approver.role']);
         $activeStep = $approvalRequest->steps->firstWhere('status', 'pending');
-        $canDecide = $approvalRequest->status === 'pending' && (
-            $approvalRequest->current_approver_id === $user->id ||
-            ($activeStep && $activeStep->approver_id === null && $activeStep->required_role_code === $user->role?->code) ||
-            $user->role?->code === 'SYSTEM_ADMIN'
-        );
+        $canDecide = $approvalRequest->status === 'pending'
+            && $approvalRequest->requester_id !== $user->id
+            && (
+                $approvalRequest->current_approver_id === $user->id ||
+                ($activeStep && $activeStep->approver_id === null && $activeStep->required_role_code === $user->role?->code) ||
+                $user->role?->code === 'SYSTEM_ADMIN'
+            );
 
         abort_unless(
             $approvalRequest->requester_id === $user->id ||

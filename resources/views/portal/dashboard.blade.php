@@ -28,7 +28,6 @@
                         <div class="eyebrow">Ενέργειες</div>
                         <h2>Άμεση προσοχή</h2>
                     </div>
-                    <span class="info-dot" data-tip="Εδώ θα μπαίνουν μόνο θέματα που χρειάζονται απόφαση ή follow-up. Δεν είναι τεχνική λίστα.">?</span>
                 </div>
                 <div class="compact-list">
                     <a class="list-item" href="{{ route('portal.approvals.pending') }}">
@@ -58,7 +57,6 @@
                         <div class="eyebrow">Η ομάδα μου</div>
                         <h2>Άμεση εικόνα</h2>
                     </div>
-                    <span class="info-dot" data-tip="Δείχνει τους ανθρώπους που αναφέρονται σε εσένα. Αν δεν έχεις ομάδα, δείχνει συναδέλφους από το ίδιο τμήμα.">?</span>
                 </div>
                 @if ($teamPreview->isNotEmpty())
                     <div class="compact-list">
@@ -85,7 +83,6 @@
                         <div class="eyebrow">Ροή εγκρίσεων</div>
                         <h2>Ποιος αποφασίζει</h2>
                     </div>
-                    <span class="info-dot" data-tip="Αυτή είναι η βασική αλυσίδα που χρησιμοποιούν οι εγκρίσεις, εκτός αν ένας κανόνας απαιτεί ειδικό ρόλο.">?</span>
                 </div>
                 <div class="compact-list">
                     <div class="list-item">
