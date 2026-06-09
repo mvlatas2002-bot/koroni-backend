@@ -100,14 +100,20 @@
         .nav-link-home .nav-icon {
             width: 44px;
             height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 17px;
             background: rgba(255,255,255,.16);
             color: #fff;
+            padding: 0;
         }
         .nav-link-home .nav-icon svg {
+            display: block;
             width: 24px;
             height: 24px;
             stroke-width: 2.45;
+            transform: translate(1.5px, 1px);
         }
         .nav-link-home strong {
             font-size: 15px;
