@@ -19,10 +19,6 @@
                     Γρήγορη εικόνα για όσα χρειάζονται κίνηση μέσα στην ημέρα.
                 </p>
             </div>
-            <div class="action-row">
-                <a class="button" href="{{ route('portal.approvals.create') }}">Νέα αίτηση</a>
-                <a class="button" href="{{ route('portal.approvals.pending') }}">Εγκρίσεις</a>
-            </div>
         </header>
 
         <section class="portal-grid three-col">

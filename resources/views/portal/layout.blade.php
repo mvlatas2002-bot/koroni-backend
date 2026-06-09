@@ -86,6 +86,33 @@
         }
         .nav-link:hover, .nav-link.active { background: rgba(255,255,255,.11); color: white; }
         .nav-link.active { box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+        .nav-link-home {
+            grid-template-columns: 44px minmax(0, 1fr);
+            min-height: 66px;
+            align-items: center;
+        }
+        .nav-link-home.active {
+            background: rgba(255,255,255,.16);
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,.14),
+                0 12px 26px rgba(0,0,0,.10);
+        }
+        .nav-link-home .nav-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 17px;
+            background: rgba(255,255,255,.16);
+            color: #fff;
+        }
+        .nav-link-home .nav-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 2.45;
+        }
+        .nav-link-home strong {
+            font-size: 15px;
+            font-weight: 950;
+        }
         .nav-icon {
             width: 38px;
             height: 38px;

@@ -96,7 +96,7 @@
     </div>
 
     <nav class="nav" data-accordion-scope>
-        <a class="nav-link {{ $activeRoute === 'portal.dashboard' ? 'active' : '' }}" href="{{ route('portal.dashboard') }}">
+        <a class="nav-link nav-link-home {{ $activeRoute === 'portal.dashboard' ? 'active' : '' }}" href="{{ route('portal.dashboard') }}">
             <span class="nav-icon">{!! $icons['home'] !!}</span>
             <span><strong>Αρχική</strong><span>Dashboard ημέρας</span></span>
         </a>
