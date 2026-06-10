@@ -1035,6 +1035,260 @@
             padding: 6px 8px;
             border-radius: 13px;
         }
+        .org-map {
+            display: grid;
+            gap: 18px;
+        }
+        .org-company-banner {
+            width: min(520px, 100%);
+            justify-self: center;
+            text-align: center;
+            border: 1px solid #c9d7e8;
+            border-radius: 28px;
+            background:
+                radial-gradient(circle at top left, rgba(255, 255, 255, .9), transparent 42%),
+                linear-gradient(145deg, #ffffff, #f4f8fc);
+            padding: 18px 24px;
+            box-shadow: 0 18px 44px rgba(22, 32, 51, .07);
+        }
+        .org-company-banner h2 {
+            margin-top: 4px;
+            color: var(--navy);
+            font-size: 26px;
+            letter-spacing: -.03em;
+        }
+        .org-company-banner p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-weight: 800;
+        }
+        .org-directorate-map {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            align-items: start;
+        }
+        .org-directorate-panel {
+            min-width: 0;
+            display: grid;
+            gap: 14px;
+            border: 1px solid rgba(205, 216, 230, .85);
+            border-radius: 34px;
+            background: rgba(255, 255, 255, .58);
+            padding: 12px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .72), 0 18px 54px rgba(20, 34, 55, .06);
+        }
+        .org-directorate-hero {
+            min-width: 0;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 14px;
+            align-items: start;
+            border-radius: 26px;
+            background:
+                linear-gradient(135deg, rgba(255,255,255,.08), transparent 38%),
+                linear-gradient(145deg, #17263d, #223a60);
+            color: #fff;
+            padding: 18px;
+        }
+        .org-directorate-hero .eyebrow,
+        .org-directorate-hero small {
+            color: rgba(255, 255, 255, .66);
+        }
+        .org-directorate-hero h2 {
+            margin-top: 5px;
+            font-size: clamp(22px, 2vw, 30px);
+            letter-spacing: -.035em;
+        }
+        .org-directorate-hero > strong {
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .12);
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+        .org-director-strip {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, .12);
+            padding: 12px;
+        }
+        .org-director-strip b {
+            display: block;
+            margin-top: 2px;
+            font-size: 15px;
+        }
+        .org-department-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(260px, 1fr));
+            gap: 12px;
+            align-items: start;
+        }
+        .org-map-card {
+            min-width: 0;
+            border: 1px solid #d9e4f0;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, .96);
+            padding: 14px;
+            box-shadow: 0 14px 34px rgba(22, 32, 51, .05);
+        }
+        .org-map-card.depth-1,
+        .org-map-card.depth-2 {
+            border-radius: 20px;
+            background: #fbfdff;
+            box-shadow: none;
+        }
+        .org-map-card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .org-map-card-head h3 {
+            margin-top: 4px;
+            font-size: 18px;
+            line-height: 1.12;
+            letter-spacing: -.03em;
+        }
+        .org-map-card.depth-1 .org-map-card-head h3,
+        .org-map-card.depth-2 .org-map-card-head h3 {
+            font-size: 15px;
+        }
+        .org-map-card-head > strong {
+            flex: 0 0 auto;
+            border: 1px solid #dce6f1;
+            border-radius: 999px;
+            background: #f7fbff;
+            color: #51637d;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: 950;
+        }
+        .org-leader-card {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .org-leader-card > span,
+        .org-members-preview > span {
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 950;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+        .org-person-row {
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #dde7f2;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #fff, #f8fbff);
+            padding: 10px;
+        }
+        .org-person-row strong {
+            display: block;
+            color: var(--ink);
+            font-size: 14px;
+            line-height: 1.15;
+        }
+        .org-person-row small {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+        .avatar.mini {
+            width: 32px;
+            height: 32px;
+            border-radius: 12px;
+            background: #eaf0f7;
+            color: #20314d;
+            font-size: 11px;
+        }
+        .org-members-preview {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .org-members-preview div {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+        .org-name-chip {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            border: 1px solid #e0e8f1;
+            border-radius: 999px;
+            background: #fff;
+            color: var(--ink);
+            padding: 6px 9px;
+            font-size: 12px;
+            font-weight: 850;
+        }
+        .org-roster {
+            margin-top: 12px;
+            border: 1px solid #dce6f1;
+            border-radius: 18px;
+            background: #fff;
+            padding: 9px 10px;
+        }
+        .org-roster summary {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            list-style: none;
+            cursor: pointer;
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 950;
+        }
+        .org-roster summary::-webkit-details-marker {
+            display: none;
+        }
+        .org-roster summary em {
+            color: var(--muted);
+            font-style: normal;
+            font-size: 12px;
+        }
+        .org-roster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 8px;
+            max-height: 360px;
+            overflow: auto;
+            padding-top: 10px;
+        }
+        .org-child-lane {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2eaf3;
+        }
+        .org-map-card.depth-1 .org-child-lane {
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        }
+        .org-empty-note {
+            margin-top: 12px;
+            border: 1px dashed #dce6f1;
+            border-radius: 16px;
+            color: var(--muted);
+            background: #fbfdff;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 800;
+        }
         details summary { cursor: pointer; font-weight: 900; }
         .payload {
             margin-top: 14px;
@@ -1528,6 +1782,7 @@
             .org-directorate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .org-unit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .org-branch-row { grid-template-columns: 1fr; }
+            .org-directorate-map { grid-template-columns: 1fr; }
         }
         @media (max-width: 520px) {
             .org-directorate-grid { grid-template-columns: 1fr; }
@@ -1564,6 +1819,17 @@
             .org-children-row { grid-template-columns: 1fr; }
             .org-node { padding: 10px; border-radius: 18px; }
             .org-node.directorate h2 { font-size: 18px; }
+            .org-company-banner { padding: 14px 16px; border-radius: 22px; }
+            .org-company-banner h2 { font-size: 20px; }
+            .org-directorate-panel { padding: 8px; border-radius: 24px; }
+            .org-directorate-hero { padding: 14px; border-radius: 20px; }
+            .org-directorate-hero h2 { font-size: 20px; }
+            .org-department-grid,
+            .org-child-lane,
+            .org-map-card.depth-1 .org-child-lane { grid-template-columns: 1fr; }
+            .org-map-card { padding: 12px; border-radius: 20px; }
+            .org-map-card-head h3 { font-size: 16px; }
+            .org-roster-grid { grid-template-columns: 1fr; max-height: 300px; }
             .org-directorate-head h2 { font-size: 18px; }
             .org-leader-strip { margin-top: 8px; padding: 7px; border-radius: 15px; }
             .org-unit-card { padding: 8px; border-radius: 16px; }
