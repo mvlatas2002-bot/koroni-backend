@@ -136,10 +136,6 @@
                 <h1>Οργανόγραμμα ΚΟΡΩΝΗ Α.Ε.</h1>
                 <p class="muted">Η πραγματική ιεραρχία τμημάτων, υπευθύνων και ομάδων. Οι μεγάλες λίστες ανοίγουν μόνο όταν τις χρειαστείς.</p>
             </div>
-            <div class="action-row">
-                <span class="pill">{{ $totalPeople }} άνθρωποι</span>
-                <a class="button secondary" href="{{ route('portal.users.index') }}">Χρήστες</a>
-            </div>
         </header>
 
         <section class="corporate-org">

@@ -2,10 +2,6 @@
     $isLeave = ($type ?? null) === 'leave';
     $isDiscount = ($type ?? null) === 'discount';
     $sectionLabel = $isLeave ? 'Άδειες' : ($isDiscount ? 'Εκπτώσεις' : 'Εγκρίσεις');
-    $newLabel = $isLeave ? 'Νέα άδεια' : ($isDiscount ? 'Νέα έκπτωση' : 'Νέα αίτηση');
-    $mineLabel = $isLeave ? 'Οι άδειές μου' : ($isDiscount ? 'Οι εκπτώσεις μου' : 'Οι αιτήσεις μου');
-    $pendingLabel = $isLeave ? 'Άδειες προς έγκριση' : ($isDiscount ? 'Εκπτώσεις προς έγκριση' : 'Προς έγκριση');
-    $routeParams = $isLeave || $isDiscount ? ['type' => $type] : [];
 @endphp
 
 @extends('portal.layout', ['title' => $title . ' | Koroni Portal'])
@@ -19,11 +15,6 @@
             <div>
                 <div class="eyebrow">{{ $sectionLabel }}</div>
                 <h1>{{ $title }}</h1>
-            </div>
-            <div class="action-row">
-                <a class="button" href="{{ route('portal.approvals.create', $routeParams) }}">{{ $newLabel }}</a>
-                <a class="button" href="{{ route('portal.approvals.index', $routeParams) }}">{{ $mineLabel }}</a>
-                <a class="button" href="{{ route('portal.approvals.pending', $routeParams) }}">{{ $pendingLabel }}</a>
             </div>
         </header>
 
