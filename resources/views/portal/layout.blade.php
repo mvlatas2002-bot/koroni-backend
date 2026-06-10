@@ -72,7 +72,7 @@
         }
         .brand strong { display: block; font-size: 18px; letter-spacing: .02em; }
         .brand span { display: block; margin-top: 3px; color: rgba(255,255,255,.55); font-size: 12px; font-weight: 700; }
-        .nav { margin-top: 22px; display: grid; gap: 10px; overflow: auto; padding-right: 4px; }
+        .nav { margin-top: 22px; display: grid; gap: 8px; overflow: auto; padding-right: 4px; }
         .nav-section { display: grid; gap: 8px; }
         .nav-link {
             display: grid;
@@ -143,6 +143,7 @@
             color: #fff;
         }
         .nav-group {
+            position: relative;
             border-radius: 24px;
             overflow: hidden;
         }
@@ -156,11 +157,35 @@
             padding: 11px 12px;
             color: rgba(255,255,255,.78);
             cursor: pointer;
-            transition: .18s ease;
+            position: relative;
+            transition: background .18s ease, color .18s ease, box-shadow .18s ease;
         }
         .nav-group summary::-webkit-details-marker { display: none; }
-        .nav-group summary:hover, .nav-group[open] summary, .nav-group.active summary {
+        .nav-group summary:hover {
             background: rgba(255,255,255,.11);
+            color: white;
+        }
+        .nav-group[open] summary,
+        .nav-group.active summary {
+            background:
+                linear-gradient(90deg, rgba(255,255,255,.14), rgba(255,255,255,.07));
+            color: white;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+        }
+        .nav-group.active summary::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 13px;
+            bottom: 13px;
+            width: 3px;
+            border-radius: 999px;
+            background: #f8fafc;
+            box-shadow: 0 0 18px rgba(255,255,255,.38);
+        }
+        .nav-group.active summary .nav-icon,
+        .nav-group[open] summary .nav-icon {
+            background: rgba(255,255,255,.13);
             color: white;
         }
         .nav-group-title strong { display: block; font-size: 14px; }
@@ -179,28 +204,46 @@
         }
         .nav-group[open] .nav-chevron { transform: rotate(180deg); }
         .nav-submenu {
-            margin: 6px 8px 2px 52px;
+            margin: 7px 8px 4px 54px;
             display: grid;
-            gap: 5px;
-            border-left: 1px solid rgba(255,255,255,.10);
-            padding-left: 10px;
+            gap: 3px;
+            border-left: 1px solid rgba(255,255,255,.12);
+            padding-left: 12px;
         }
         .nav-sublink {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            border-radius: 16px;
-            padding: 9px 11px;
-            color: rgba(255,255,255,.62);
+            border-radius: 14px;
+            padding: 8px 10px;
+            color: rgba(255,255,255,.58);
             font-size: 13px;
             font-weight: 800;
-            transition: .18s ease;
+            transition: background .18s ease, color .18s ease, transform .18s ease;
         }
-        .nav-sublink:hover, .nav-sublink.active {
+        .nav-sublink:hover {
+            background: rgba(255,255,255,.08);
+            color: rgba(255,255,255,.92);
+            transform: translateX(2px);
+        }
+        .nav-sublink.active {
+            background: rgba(255,255,255,.13);
+            color: white;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+        }
+        .nav-sublink.active::before {
+            content: "";
+            position: absolute;
+            left: -14px;
+            top: 50%;
+            width: 5px;
+            height: 5px;
+            border-radius: 999px;
             background: white;
-            color: var(--navy);
-            box-shadow: 0 8px 20px rgba(255,255,255,.10);
+            box-shadow: 0 0 14px rgba(255,255,255,.75);
+            transform: translateY(-50%);
         }
         .nav-sublink small {
             color: inherit;
