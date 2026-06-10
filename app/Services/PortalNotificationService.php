@@ -43,7 +43,11 @@ class PortalNotificationService
 
     public function notifyApprovalPending(ApprovalRequest $request): void
     {
-        if ($request->status !== 'pending' || ! $request->current_approver_id) {
+        if (
+            $request->status !== 'pending'
+            || ! $request->current_approver_id
+            || (int) $request->current_approver_id === (int) $request->requester_id
+        ) {
             return;
         }
 

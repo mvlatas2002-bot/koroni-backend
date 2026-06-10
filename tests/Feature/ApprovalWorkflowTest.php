@@ -94,6 +94,82 @@ class ApprovalWorkflowTest extends TestCase
         $this->assertSame(0, $request->steps()->count());
     }
 
+    public function test_pending_discount_notification_goes_only_to_the_active_approver(): void
+    {
+        $salesRole = Role::create(['code' => 'SALES_REP', 'name' => 'Sales Rep', 'is_system' => true]);
+        $directorRole = Role::create(['code' => 'COMMERCIAL_DIRECTOR', 'name' => 'Commercial Director', 'is_system' => true]);
+
+        $requester = User::create([
+            'name' => 'Sales Requester',
+            'email' => 'sales-requester@example.test',
+            'password' => Hash::make('secret'),
+            'role_id' => $salesRole->id,
+            'is_active' => true,
+        ]);
+
+        $approver = User::create([
+            'name' => 'Commercial Approver',
+            'email' => 'commercial-approver@example.test',
+            'password' => Hash::make('secret'),
+            'role_id' => $directorRole->id,
+            'is_active' => true,
+        ]);
+
+        $otherDirector = User::create([
+            'name' => 'Other Director',
+            'email' => 'other-director@example.test',
+            'password' => Hash::make('secret'),
+            'role_id' => $directorRole->id,
+            'is_active' => true,
+        ]);
+
+        $request = app(ApprovalWorkflowService::class)->create($requester->load('role'), [
+            'workflow_type' => 'discount',
+            'title' => 'Discount needs commercial approval',
+            'discount_percent' => 8,
+        ]);
+
+        $this->assertSame('pending', $request->status);
+        $this->assertSame($approver->id, $request->current_approver_id);
+        $this->assertSame(1, PortalNotification::where('recipient_id', $approver->id)->where('type', 'DISCOUNT_APPROVAL_REQUESTED')->count());
+        $this->assertSame(0, PortalNotification::where('recipient_id', $requester->id)->where('type', 'DISCOUNT_APPROVAL_REQUESTED')->count());
+        $this->assertSame(0, PortalNotification::where('recipient_id', $otherDirector->id)->count());
+    }
+
+    public function test_final_rejection_notification_goes_only_to_requester(): void
+    {
+        $salesRole = Role::create(['code' => 'SALES_REP', 'name' => 'Sales Rep', 'is_system' => true]);
+        $directorRole = Role::create(['code' => 'COMMERCIAL_DIRECTOR', 'name' => 'Commercial Director', 'is_system' => true]);
+
+        $requester = User::create([
+            'name' => 'Rejected Requester',
+            'email' => 'rejected-requester@example.test',
+            'password' => Hash::make('secret'),
+            'role_id' => $salesRole->id,
+            'is_active' => true,
+        ]);
+
+        $approver = User::create([
+            'name' => 'Rejecting Approver',
+            'email' => 'rejecting-approver@example.test',
+            'password' => Hash::make('secret'),
+            'role_id' => $directorRole->id,
+            'is_active' => true,
+        ]);
+
+        $workflow = app(ApprovalWorkflowService::class);
+        $request = $workflow->create($requester->load('role'), [
+            'workflow_type' => 'discount',
+            'title' => 'Discount rejected',
+            'discount_percent' => 8,
+        ]);
+
+        $workflow->decide($approver->load('role'), $request, 'reject', 'No');
+
+        $this->assertSame(1, PortalNotification::where('recipient_id', $requester->id)->where('type', 'DISCOUNT_REJECTED')->count());
+        $this->assertSame(0, PortalNotification::where('recipient_id', $approver->id)->where('type', 'DISCOUNT_REJECTED')->count());
+    }
+
     public function test_requester_cannot_approve_their_own_pending_request(): void
     {
         $role = Role::create([
@@ -105,6 +181,14 @@ class ApprovalWorkflowTest extends TestCase
         $requester = User::create([
             'name' => 'Self Approver Test',
             'email' => 'self-approver@example.test',
+            'password' => Hash::make('secret'),
+            'role_id' => $role->id,
+            'is_active' => true,
+        ]);
+
+        User::create([
+            'name' => 'Other Commercial Director',
+            'email' => 'other-commercial@example.test',
             'password' => Hash::make('secret'),
             'role_id' => $role->id,
             'is_active' => true,

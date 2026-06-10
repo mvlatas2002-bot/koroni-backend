@@ -22,6 +22,7 @@ class ApprovalWorkflowService
             $intent = $data['intent'] ?? 'submit';
             $requestDate = Carbon::now();
             $steps = $intent === 'draft' ? [] : $this->resolvePlan($actor, $workflowType, $data);
+            $this->assertConcreteApprovers($actor, $steps);
             $status = $intent === 'draft' ? 'draft' : (count($steps) === 0 ? 'approved' : 'pending');
 
             $request = ApprovalRequest::create([
@@ -334,6 +335,19 @@ class ApprovalWorkflowService
         }
 
         return null;
+    }
+
+    private function assertConcreteApprovers(User $actor, array $steps): void
+    {
+        foreach ($steps as $step) {
+            if (! empty($step['approver_id']) && (int) $step['approver_id'] !== (int) $actor->id) {
+                continue;
+            }
+
+            throw ValidationException::withMessages([
+                'workflow_type' => 'Δεν βρέθηκε συγκεκριμένος εγκριτής για αυτή την αίτηση. Έλεγξε τον προϊστάμενο, τον secondary approver ή τους κανόνες εγκρίσεων.',
+            ]);
+        }
     }
 
     private function canDecide(User $actor, ApprovalStep $step): bool
