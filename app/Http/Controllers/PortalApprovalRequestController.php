@@ -227,9 +227,10 @@ class PortalApprovalRequestController extends Controller
             'starts_on' => $validated['starts_on'],
             'ends_on' => $validated['ends_on'],
             'payload' => [
-                'charged_days' => $workingDays['charged_days'],
-                'charged_dates' => $workingDays['charged_dates'],
+                'charged_days' => $validated['title'] === 'Αναρρωτική άδεια' ? 0 : $workingDays['charged_days'],
+                'charged_dates' => $validated['title'] === 'Αναρρωτική άδεια' ? [] : $workingDays['charged_dates'],
                 'excluded_dates' => $workingDays['excluded_dates'],
+                'is_balance_chargeable' => $validated['title'] !== 'Αναρρωτική άδεια',
             ],
         ];
     }
@@ -250,11 +251,6 @@ class PortalApprovalRequestController extends Controller
             'Κανονική άδεια',
             'Έκτακτη άδεια',
             'Αναρρωτική άδεια',
-            'Άδεια άνευ αποδοχών',
-            'Γονική άδεια',
-            'Άδεια γάμου',
-            'Άδεια πένθους',
-            'Ειδική άδεια',
         ];
     }
 

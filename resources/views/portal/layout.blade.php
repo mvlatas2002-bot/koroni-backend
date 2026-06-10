@@ -1616,9 +1616,11 @@
             const form = picker.closest('form');
             const startInput = form?.querySelector('input[name="starts_on"]');
             const endInput = form?.querySelector('input[name="ends_on"]');
+            const leaveTypeInput = form?.querySelector('[data-leave-type]');
             const days = [...picker.querySelectorAll('[data-date]')];
             const rangeLabel = picker.querySelector('[data-leave-range-label]');
             const daysLabel = picker.querySelector('[data-leave-days-label]');
+            const daysCaption = picker.querySelector('[data-leave-days-caption]');
             let start = picker.dataset.initialStart || startInput?.value || null;
             let end = picker.dataset.initialEnd || endInput?.value || null;
 
@@ -1661,7 +1663,13 @@
                 }
 
                 if (daysLabel) {
-                    daysLabel.textContent = chargedDays;
+                    daysLabel.textContent = leaveTypeInput?.value === 'Αναρρωτική άδεια' ? '0' : chargedDays;
+                }
+
+                if (daysCaption) {
+                    daysCaption.textContent = leaveTypeInput?.value === 'Αναρρωτική άδεια'
+                        ? 'Δεν αφαιρείται από το υπόλοιπο'
+                        : 'Χρεώσιμες εργάσιμες';
                 }
             };
 
@@ -1680,6 +1688,7 @@
                 });
             });
 
+            leaveTypeInput?.addEventListener('change', update);
             update();
         });
     </script>

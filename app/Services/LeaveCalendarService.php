@@ -216,6 +216,10 @@ class LeaveCalendarService
         $futureScheduled = 0;
 
         foreach ($approvedLeaves as $leave) {
+            if (! $this->chargesAnnualBalance($leave)) {
+                continue;
+            }
+
             $range = $this->workingDatesBetween(
                 max($leave->starts_on->toDateString(), "{$year}-01-01"),
                 min($leave->ends_on->toDateString(), "{$year}-12-31")
@@ -252,5 +256,14 @@ class LeaveCalendarService
                 'user' => $user,
                 'balance' => $this->balanceFor($user, $year),
             ]);
+    }
+
+    private function chargesAnnualBalance(ApprovalRequest $leave): bool
+    {
+        if (($leave->payload['is_balance_chargeable'] ?? null) === false) {
+            return false;
+        }
+
+        return $leave->title !== 'Αναρρωτική άδεια';
     }
 }

@@ -37,7 +37,9 @@ class ApprovalSectionsTest extends TestCase
             ->assertSee('Νέα αίτηση άδειας')
             ->assertSee('Τύπος άδειας')
             ->assertSee('Κανονική άδεια')
+            ->assertSee('Έκτακτη άδεια')
             ->assertSee('Αναρρωτική άδεια')
+            ->assertDontSee('Άδεια άνευ αποδοχών')
             ->assertSee('Επιλογή ημερών')
             ->assertDontSee('Κανονική τιμή');
 

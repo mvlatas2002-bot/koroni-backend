@@ -114,6 +114,39 @@ class LeaveCalendarTest extends TestCase
         Carbon::setTestNow();
     }
 
+    public function test_sick_leave_does_not_reduce_annual_leave_balance(): void
+    {
+        Carbon::setTestNow('2026-06-10 10:00:00');
+
+        $role = Role::create(['code' => 'SALES_REP', 'name' => 'Sales', 'is_system' => true]);
+        $user = User::create([
+            'name' => 'Employee',
+            'email' => 'sick-leave@example.test',
+            'password' => Hash::make('secret'),
+            'role_id' => $role->id,
+            'is_active' => true,
+        ]);
+
+        ApprovalRequest::create([
+            'request_code' => 'LREQ-2026-000002',
+            'workflow_type' => 'leave',
+            'title' => 'Αναρρωτική άδεια',
+            'requester_id' => $user->id,
+            'status' => 'approved',
+            'starts_on' => '2026-06-08',
+            'ends_on' => '2026-06-10',
+            'submitted_at' => now(),
+            'decided_at' => now(),
+        ]);
+
+        $balance = app(LeaveCalendarService::class)->balanceFor($user, 2026);
+
+        $this->assertSame(0, $balance['used_to_date']);
+        $this->assertSame(22.0, $balance['remaining_now']);
+
+        Carbon::setTestNow();
+    }
+
     public function test_leave_calendar_page_loads_for_authenticated_user(): void
     {
         $role = Role::create(['code' => 'SALES_REP', 'name' => 'Sales', 'is_system' => true]);

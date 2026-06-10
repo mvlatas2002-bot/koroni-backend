@@ -57,7 +57,7 @@
 
                     <div class="leave-picker-summary">
                         <span><strong data-leave-range-label>Δεν έχεις επιλέξει ημέρες</strong><small>Επιλεγμένο διάστημα</small></span>
-                        <span><strong data-leave-days-label>0</strong><small>Χρεώσιμες εργάσιμες</small></span>
+                        <span><strong data-leave-days-label>0</strong><small data-leave-days-caption>Χρεώσιμες εργάσιμες</small></span>
                         @if ($leaveBalance)
                             <span><strong>{{ number_format($leaveBalance['remaining_now'], 1) }}</strong><small>Διαθέσιμες σήμερα</small></span>
                         @endif
@@ -98,7 +98,7 @@
                 <div class="portal-grid two-even">
                     <div class="field">
                         <label>Τύπος άδειας</label>
-                        <select name="title" required>
+                        <select name="title" required data-leave-type>
                             @foreach ($leaveTypes ?? [] as $leaveType)
                                 <option value="{{ $leaveType }}" @selected(old('title', 'Κανονική άδεια') === $leaveType)>{{ $leaveType }}</option>
                             @endforeach
