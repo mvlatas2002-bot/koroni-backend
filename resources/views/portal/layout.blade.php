@@ -1109,12 +1109,33 @@
         }
         .org-director-strip {
             grid-column: 1 / -1;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            display: block;
             border-radius: 22px;
             background: rgba(255, 255, 255, .12);
             padding: 12px;
+        }
+        .org-director-strip summary {
+            list-style: none;
+            cursor: pointer;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 950;
+        }
+        .org-director-strip summary::-webkit-details-marker {
+            display: none;
+        }
+        .org-director-strip .org-person-row {
+            margin-top: 10px;
+        }
+        .org-person-row.inverted {
+            border-color: rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .10);
+        }
+        .org-person-row.inverted strong {
+            color: #fff;
+        }
+        .org-person-row.inverted small {
+            color: rgba(255, 255, 255, .68);
         }
         .org-director-strip b {
             display: block;
