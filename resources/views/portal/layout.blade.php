@@ -1310,6 +1310,222 @@
             font-size: 13px;
             font-weight: 800;
         }
+        .org-tree-map {
+            display: grid;
+            gap: 18px;
+        }
+        .org-tree-company {
+            width: min(760px, 100%);
+            justify-self: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            border: 1px solid #c8d8ea;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #fff, #f5f9fd);
+            padding: 18px 22px;
+            box-shadow: 0 20px 54px rgba(22, 32, 51, .08);
+        }
+        .org-tree-company h2 {
+            margin-top: 4px;
+            color: var(--navy);
+            font-size: 28px;
+            letter-spacing: -.035em;
+        }
+        .org-tree-company > strong,
+        .org-tree-directorate > strong {
+            flex: 0 0 auto;
+            border: 1px solid #dbe6f2;
+            border-radius: 999px;
+            background: #fff;
+            color: #50627d;
+            padding: 9px 12px;
+            font-size: 13px;
+            font-weight: 950;
+        }
+        .org-tree-columns {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            align-items: start;
+        }
+        .org-tree-column {
+            min-width: 0;
+            border: 1px solid rgba(203, 215, 231, .9);
+            border-radius: 34px;
+            background: rgba(255, 255, 255, .72);
+            padding: 14px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), 0 18px 56px rgba(20, 34, 55, .06);
+        }
+        .org-tree-directorate {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            border-radius: 26px;
+            background:
+                linear-gradient(135deg, rgba(255,255,255,.08), transparent 38%),
+                linear-gradient(145deg, #17263d, #223a60);
+            color: #fff;
+            padding: 18px;
+        }
+        .org-tree-directorate .eyebrow {
+            color: rgba(255, 255, 255, .66);
+        }
+        .org-tree-directorate h2 {
+            margin-top: 5px;
+            font-size: clamp(22px, 2vw, 30px);
+            letter-spacing: -.035em;
+        }
+        .org-tree-directorate > strong {
+            border-color: rgba(255, 255, 255, .22);
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+        }
+        .org-tree-director,
+        .org-tree-unit {
+            border: 1px solid #dbe6f2;
+            border-radius: 19px;
+            background: #fff;
+            overflow: hidden;
+        }
+        .org-tree-director {
+            margin-top: 12px;
+            background: #f8fbff;
+        }
+        .org-tree-director summary,
+        .org-tree-unit summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            list-style: none;
+            cursor: pointer;
+            padding: 13px 14px;
+            color: var(--ink);
+            font-weight: 950;
+        }
+        .org-tree-director summary::-webkit-details-marker,
+        .org-tree-unit summary::-webkit-details-marker {
+            display: none;
+        }
+        .org-tree-unit summary small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 950;
+            letter-spacing: .16em;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+        .org-tree-unit summary b {
+            display: block;
+            margin-top: 5px;
+            font-size: 16px;
+            line-height: 1.1;
+            letter-spacing: -.02em;
+        }
+        .org-tree-unit summary em {
+            flex: 0 0 auto;
+            border: 1px solid #dbe6f2;
+            border-radius: 999px;
+            background: #f7fbff;
+            color: #51637d;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 950;
+        }
+        .org-tree-unit[open] > summary {
+            border-bottom: 1px solid #e2eaf3;
+            background: #fbfdff;
+        }
+        .org-tree-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .org-tree-unit-body {
+            display: grid;
+            gap: 12px;
+            padding: 12px;
+        }
+        .org-tree-children {
+            display: grid;
+            gap: 8px;
+            padding-left: 12px;
+            border-left: 2px solid #dfe8f2;
+        }
+        .org-tree-unit.depth-1,
+        .org-tree-unit.depth-2 {
+            border-radius: 16px;
+            background: #fbfdff;
+        }
+        .org-tree-unit.depth-1 summary,
+        .org-tree-unit.depth-2 summary {
+            padding: 11px 12px;
+        }
+        .org-tree-unit.depth-1 summary b,
+        .org-tree-unit.depth-2 summary b {
+            font-size: 14px;
+        }
+        .org-tree-people {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 8px;
+        }
+        .org-tree-people.single {
+            padding: 10px;
+        }
+        .org-tree-person {
+            min-width: 0;
+            display: grid;
+            grid-template-columns: 32px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #dde7f2;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #fff, #f8fbff);
+            padding: 10px;
+        }
+        .org-tree-person strong,
+        .org-tree-person small {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .org-tree-person strong {
+            color: var(--ink);
+            font-size: 14px;
+            line-height: 1.15;
+        }
+        .org-tree-person small {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .org-tree-person em {
+            border: 1px solid #bfefd6;
+            border-radius: 999px;
+            background: #ecfdf5;
+            color: var(--green);
+            padding: 5px 8px;
+            font-size: 10px;
+            font-style: normal;
+            font-weight: 950;
+        }
+        .org-tree-empty {
+            border: 1px dashed #dce6f1;
+            border-radius: 16px;
+            background: #fbfdff;
+            color: var(--muted);
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 800;
+        }
         details summary { cursor: pointer; font-weight: 900; }
         .payload {
             margin-top: 14px;
@@ -1804,6 +2020,7 @@
             .org-unit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .org-branch-row { grid-template-columns: 1fr; }
             .org-directorate-map { grid-template-columns: 1fr; }
+            .org-tree-columns { grid-template-columns: 1fr; }
         }
         @media (max-width: 520px) {
             .org-directorate-grid { grid-template-columns: 1fr; }
@@ -1851,6 +2068,25 @@
             .org-map-card { padding: 12px; border-radius: 20px; }
             .org-map-card-head h3 { font-size: 16px; }
             .org-roster-grid { grid-template-columns: 1fr; max-height: 300px; }
+            .org-tree-company,
+            .org-tree-directorate {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+            .org-tree-column { padding: 8px; border-radius: 24px; }
+            .org-tree-directorate { padding: 14px; border-radius: 20px; }
+            .org-tree-directorate h2 { font-size: 20px; }
+            .org-tree-unit summary,
+            .org-tree-director summary { padding: 11px 12px; }
+            .org-tree-children { padding-left: 8px; }
+            .org-tree-people { grid-template-columns: 1fr; }
+            .org-tree-person {
+                grid-template-columns: 32px minmax(0, 1fr);
+            }
+            .org-tree-person em {
+                grid-column: 1 / -1;
+                justify-self: start;
+            }
             .org-directorate-head h2 { font-size: 18px; }
             .org-leader-strip { margin-top: 8px; padding: 7px; border-radius: 15px; }
             .org-unit-card { padding: 8px; border-radius: 16px; }

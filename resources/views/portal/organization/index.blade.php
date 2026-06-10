@@ -15,8 +15,8 @@
                         [
                             'code' => 'MOVEMENT_OFFICE',
                             'children' => [
-                                ['code' => 'WAREHOUSEMEN_TEAM', 'large' => true],
-                                ['code' => 'DRIVERS_TEAM', 'large' => true],
+                                ['code' => 'WAREHOUSEMEN_TEAM'],
+                                ['code' => 'DRIVERS_TEAM'],
                             ],
                         ],
                         ['code' => 'RECEIVING_DEPT'],
@@ -35,7 +35,7 @@
                     'children' => [
                         ['code' => 'SALES_OPS_DEPT'],
                         ['code' => 'CUSTOMER_DEPT'],
-                        ['code' => 'SALES_DEPT', 'large' => true],
+                        ['code' => 'SALES_DEPT'],
                     ],
                 ],
                 ['code' => 'TECHNICAL_TEAM'],
@@ -51,15 +51,6 @@
 
     $leaderFor = fn ($unit) => $peopleFor($unit)->first(fn ($assignment) => $assignment->position?->is_managerial);
     $membersFor = fn ($unit) => $peopleFor($unit)->reject(fn ($assignment) => $assignment->position?->is_managerial)->values();
-
-    $initials = function ($name) {
-        return collect(preg_split('/\s+/u', trim((string) $name)) ?: [])
-            ->filter()
-            ->take(2)
-            ->map(fn ($part) => mb_substr($part, 0, 1))
-            ->implode('');
-    };
-
     $directPeopleCount = fn ($unit) => $peopleFor($unit)->count();
 
     $treePeopleCount = function ($node) use (&$treePeopleCount, $unitByCode, $directPeopleCount) {
@@ -73,61 +64,76 @@
         return $total;
     };
 
-    $renderPerson = function ($assignment) use ($initials) {
-        $name = $assignment->employeeProfile->full_name;
-        $title = $assignment->position?->title;
-
-        return '<div class="org-person-row"><span class="avatar mini">'.e($initials($name)).'</span><div><strong>'.e($name).'</strong>'.($title ? '<small>'.e($title).'</small>' : '').'</div></div>';
+    $initials = function ($name) {
+        return collect(preg_split('/\s+/u', trim((string) $name)) ?: [])
+            ->filter()
+            ->take(2)
+            ->map(fn ($part) => mb_substr($part, 0, 1))
+            ->implode('');
     };
 
-    $renderPeople = function ($unit) use ($leaderFor, $membersFor, $renderPerson) {
+    $renderPerson = function ($assignment, $leader = false) use ($initials) {
+        $name = $assignment->employeeProfile->full_name;
+        $title = $assignment->position?->title;
+        $label = $leader ? '<em>Υπεύθυνος</em>' : '';
+
+        return '<div class="org-tree-person">'
+            .'<span class="avatar mini">'.e($initials($name)).'</span>'
+            .'<div><strong>'.e($name).'</strong>'.($title ? '<small>'.e($title).'</small>' : '').'</div>'
+            .$label
+            .'</div>';
+    };
+
+    $renderPeopleBlock = function ($unit) use ($leaderFor, $membersFor, $renderPerson) {
         $leader = $leaderFor($unit);
         $members = $membersFor($unit);
-        $total = $members->count() + ($leader ? 1 : 0);
 
-        if ($total === 0) {
-            return '';
+        if (! $leader && $members->isEmpty()) {
+            return '<p class="org-tree-empty">Δεν έχουν συνδεθεί ακόμα ενεργοί άνθρωποι.</p>';
         }
 
-        $html = '<details class="org-roster"><summary>Προβολή ανθρώπων <em>'.$total.' άτομα</em></summary><div class="org-roster-grid">';
+        $html = '<div class="org-tree-people">';
         if ($leader) {
-            $html .= $renderPerson($leader);
+            $html .= $renderPerson($leader, true);
         }
+
         foreach ($members as $member) {
             $html .= $renderPerson($member);
         }
-        $html .= '</div></details>';
 
-        return $html;
+        return $html.'</div>';
     };
 
-    $renderUnit = function ($node, $depth = 0) use (&$renderUnit, $unitByCode, $treePeopleCount, $directPeopleCount, $renderPeople) {
+    $renderUnit = function ($node, $depth = 0) use (&$renderUnit, $unitByCode, $treePeopleCount, $directPeopleCount, $renderPeopleBlock) {
         $unit = $unitByCode->get($node['code']);
         if (! $unit) {
             return '';
         }
 
         $children = $node['children'] ?? [];
-        $large = (bool) ($node['large'] ?? false);
         $treeTotal = $treePeopleCount($node);
         $directTotal = $directPeopleCount($unit);
-        $kind = $depth === 0 ? 'Τμήμα' : 'Ομάδα';
+        $label = $depth === 0 ? 'Τμήμα' : 'Ομάδα';
 
-        $html = '<article class="org-map-card depth-'.$depth.($large ? ' is-large-team' : '').'">';
-        $html .= '<header class="org-map-card-head"><div><span class="eyebrow">'.$kind.'</span><h3>'.e($unit->name).'</h3></div><strong>'.$treeTotal.' άτομα</strong></header>';
-        $html .= $renderPeople($unit);
+        $html = '<details class="org-tree-unit depth-'.$depth.'">';
+        $html .= '<summary><span><small>'.$label.'</small><b>'.e($unit->name).'</b></span><em>'.$treeTotal.' άτομα</em></summary>';
+        $html .= '<div class="org-tree-unit-body">';
+
+        if ($directTotal > 0) {
+            $html .= $renderPeopleBlock($unit);
+        }
 
         if (! empty($children)) {
-            $html .= '<div class="org-child-lane">';
+            $html .= '<div class="org-tree-children">';
             foreach ($children as $child) {
                 $html .= $renderUnit($child, $depth + 1);
             }
             $html .= '</div>';
         } elseif ($directTotal === 0) {
-            $html .= '<p class="org-empty-note">Δεν έχουν συνδεθεί ακόμα ενεργοί άνθρωποι.</p>';
+            $html .= $renderPeopleBlock($unit);
         }
 
-        return $html.'</article>';
+        return $html.'</div></details>';
     };
 @endphp
 
@@ -140,18 +146,20 @@
             <div>
                 <div class="eyebrow">Οργάνωση</div>
                 <h1>Οργανόγραμμα ΚΟΡΩΝΗ Α.Ε.</h1>
-                <p class="muted">Καθαρή εικόνα διευθύνσεων, τμημάτων, υπευθύνων και ομάδων χωρίς να πνίγεται η οθόνη με ονόματα.</p>
+                <p class="muted">Συμμετρική προβολή: αρχικά βλέπεις μόνο τη δομή και ανοίγεις όποιο τμήμα θέλεις για πλήρη ονόματα.</p>
             </div>
         </header>
 
-        <section class="org-map">
-            <article class="org-company-banner">
-                <span class="eyebrow">Κεντρική εταιρεία</span>
-                <h2>{{ $company?->name ?? 'ΚΟΡΩΝΗ Α.Ε.' }}</h2>
-                <p>{{ $totalPeople }} ενεργοί άνθρωποι στο portal</p>
+        <section class="org-tree-map">
+            <article class="org-tree-company">
+                <div>
+                    <span class="eyebrow">Κεντρική εταιρεία</span>
+                    <h2>{{ $company?->name ?? 'ΚΟΡΩΝΗ Α.Ε.' }}</h2>
+                </div>
+                <strong>{{ $totalPeople }} ενεργοί άνθρωποι</strong>
             </article>
 
-            <div class="org-directorate-map">
+            <div class="org-tree-columns">
                 @foreach ($chart as $directorateNode)
                     @php
                         $directorate = $unitByCode->get($directorateNode['code']);
@@ -161,28 +169,25 @@
 
                     @continue(! $directorate)
 
-                    <section class="org-directorate-panel">
-                        <header class="org-directorate-hero">
+                    <section class="org-tree-column">
+                        <header class="org-tree-directorate">
                             <div>
                                 <span class="eyebrow">Διεύθυνση</span>
                                 <h2>{{ $directorate->name }}</h2>
                             </div>
                             <strong>{{ $directorateTotal }} άτομα</strong>
-                            @if ($director)
-                                <details class="org-director-strip">
-                                    <summary>Προβολή υπεύθυνου</summary>
-                                    <div class="org-person-row inverted">
-                                        <span class="avatar">{{ $initials($director->employeeProfile->full_name) }}</span>
-                                        <div>
-                                            <small>{{ $director->position?->title }}</small>
-                                            <strong>{{ $director->employeeProfile->full_name }}</strong>
-                                        </div>
-                                    </div>
-                                </details>
-                            @endif
                         </header>
 
-                        <div class="org-department-grid">
+                        @if ($director)
+                            <details class="org-tree-director">
+                                <summary>Προβολή υπεύθυνου διεύθυνσης</summary>
+                                <div class="org-tree-people single">
+                                    {!! $renderPerson($director, true) !!}
+                                </div>
+                            </details>
+                        @endif
+
+                        <div class="org-tree-list">
                             @foreach ($directorateNode['children'] as $departmentNode)
                                 {!! $renderUnit($departmentNode) !!}
                             @endforeach
