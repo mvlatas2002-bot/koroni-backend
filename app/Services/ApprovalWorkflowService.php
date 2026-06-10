@@ -161,8 +161,7 @@ class ApprovalWorkflowService
 
     private function leavePlan(User $actor): array
     {
-        $manager = $actor->actingManager ?: $actor->manager;
-        $hrReviewer = $this->firstUserWithRole(['OPERATIONS_ADMIN', 'SYSTEM_ADMIN', 'MANAGEMENT']);
+        $manager = $actor->secondaryApprover ?: $actor->actingManager ?: $actor->manager;
 
         if (!$manager) {
             throw ValidationException::withMessages([
@@ -172,23 +171,12 @@ class ApprovalWorkflowService
 
         $steps = [[
             'step_number' => 1,
-            'step_type' => 'direct_manager',
+            'step_type' => 'leave_manager',
             'label' => 'Άμεσος προϊστάμενος',
             'approver_id' => $manager->id,
             'required_role_code' => $manager->role?->code,
             'status' => 'pending',
         ]];
-
-        if ($hrReviewer && $hrReviewer->id !== $manager->id) {
-            $steps[] = [
-                'step_number' => 2,
-                'step_type' => 'hr_review',
-                'label' => 'HR / Operations review',
-                'approver_id' => $hrReviewer->id,
-                'required_role_code' => $hrReviewer->role?->code,
-                'status' => 'pending',
-            ];
-        }
 
         return $steps;
     }

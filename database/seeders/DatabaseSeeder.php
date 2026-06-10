@@ -27,7 +27,11 @@ class DatabaseSeeder extends Seeder
             $this->call(UserSeeder::class);
         }
 
-        $this->call(ApprovalAuthoritySeeder::class);
+        $this->call([
+            ApprovalAuthoritySeeder::class,
+            CompanyHolidaySeeder::class,
+            LeaveBalanceSeeder::class,
+        ]);
 
         if (EmployeeAssignment::count() === 0) {
             $this->call(EmployeeAssignmentSeeder::class);

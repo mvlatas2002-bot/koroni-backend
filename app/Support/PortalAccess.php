@@ -30,6 +30,8 @@ class PortalAccess
                 || in_array($departmentCode, ['CUSTOMER_DEPT', 'OPERATIONS_DEPT'], true),
             'can_manage_all_sales_programs' => self::hasAnyRole($roleCode, self::roleGroup('sales_program_managers')),
             'can_approve_requests' => self::hasAnyRole($roleCode, self::roleGroup('approvers')),
+            'can_manage_leave_balances' => self::hasAnyRole($roleCode, ['OPERATIONS_ADMIN', 'SYSTEM_ADMIN', 'MANAGEMENT'])
+                || $departmentCode === 'ACCOUNTING_DEPT',
             'can_manage_platform' => self::hasAnyRole($roleCode, self::roleGroup('platform_admins')),
         ];
     }

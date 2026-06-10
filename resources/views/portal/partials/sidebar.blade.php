@@ -127,7 +127,7 @@
     </nav>
 
     <div class="account-dock">
-        <a class="account-action-button" href="{{ route('portal.approvals.create', ['type' => 'leave']) }}" aria-label="Νέα άδεια">
+        <a class="account-action-button" href="{{ route('portal.leave-calendar.index') }}" aria-label="Ημερολόγιο αδειών">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v3M17 4v3M5.5 8h13M6.8 6h10.4A2.3 2.3 0 0 1 19.5 8.3v10.4a2.3 2.3 0 0 1-2.3 2.3H6.8a2.3 2.3 0 0 1-2.3-2.3V8.3A2.3 2.3 0 0 1 6.8 6Z"/></svg>
         </a>
 

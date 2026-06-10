@@ -104,4 +104,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ApprovalStep::class, 'approver_id');
     }
+
+    public function leaveBalances(): HasMany
+    {
+        return $this->hasMany(LeaveBalance::class);
+    }
 }

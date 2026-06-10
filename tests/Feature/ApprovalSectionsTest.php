@@ -19,14 +19,10 @@ class ApprovalSectionsTest extends TestCase
         $response = $this->actingAs($user)->get(route('portal.dashboard'));
 
         $response->assertOk();
-        $response->assertSee('Νέα έκπτωση');
-        $response->assertSee('Οι εκπτώσεις μου');
-        $response->assertSee('Εκπτώσεις προς έγκριση');
+        $response->assertSee('/approval-requests/create?type=discount', false);
         $response->assertSee('/approval-requests?type=discount', false);
         $response->assertSee('/approval-requests/pending?type=discount', false);
-        $response->assertSee('Νέα άδεια');
-        $response->assertSee('Οι άδειές μου');
-        $response->assertSee('Άδειες προς έγκριση');
+        $response->assertSee('/approval-requests/create?type=leave', false);
         $response->assertSee('/approval-requests?type=leave', false);
         $response->assertSee('/approval-requests/pending?type=leave', false);
     }
@@ -40,8 +36,7 @@ class ApprovalSectionsTest extends TestCase
             ->assertOk()
             ->assertSee('Νέα αίτηση άδειας')
             ->assertSee('Τίτλος άδειας')
-            ->assertSee('Από')
-            ->assertSee('Έως')
+            ->assertSee('Επιλογή ημερών')
             ->assertDontSee('Κανονική τιμή');
 
         $this->actingAs($user)

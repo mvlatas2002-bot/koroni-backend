@@ -5,6 +5,7 @@ use App\Http\Controllers\PortalApprovalAuthorityController;
 use App\Http\Controllers\PortalApprovalRequestController;
 use App\Http\Controllers\PortalDashboardController;
 use App\Http\Controllers\PortalDepartmentController;
+use App\Http\Controllers\PortalLeaveCalendarController;
 use App\Http\Controllers\PortalModuleController;
 use App\Http\Controllers\PortalOrganizationController;
 use App\Http\Controllers\PortalProfileController;
@@ -36,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/approval-requests', [PortalApprovalRequestController::class, 'store'])->name('portal.approvals.store');
     Route::get('/approval-requests/{approvalRequest}', [PortalApprovalRequestController::class, 'show'])->name('portal.approvals.show');
     Route::post('/approval-requests/{approvalRequest}/decision', [PortalApprovalRequestController::class, 'decide'])->name('portal.approvals.decide');
+    Route::get('/leave-calendar', [PortalLeaveCalendarController::class, 'index'])->name('portal.leave-calendar.index');
+    Route::put('/leave-balances/{user}', [PortalLeaveCalendarController::class, 'updateBalance'])->name('portal.leave-balances.update');
     Route::get('/approval-authorities', [PortalApprovalAuthorityController::class, 'index'])->name('portal.approval-authorities.index');
     Route::post('/approval-authorities', [PortalApprovalAuthorityController::class, 'store'])->name('portal.approval-authorities.store');
     Route::put('/approval-authorities/{approvalAuthority}', [PortalApprovalAuthorityController::class, 'update'])->name('portal.approval-authorities.update');

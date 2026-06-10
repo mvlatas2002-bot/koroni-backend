@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ApprovalRequest;
 use App\Services\ApprovalWorkflowService;
+use App\Services\LeaveCalendarService;
 use App\Support\PortalAccess;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -52,7 +53,7 @@ class PortalApprovalRequestController extends Controller
         ]);
     }
 
-    public function create(Request $request): View
+    public function create(Request $request, LeaveCalendarService $leaveCalendar): View
     {
         $type = $this->normalizedType($request->query('type')) ?? 'general';
 
@@ -60,16 +61,18 @@ class PortalApprovalRequestController extends Controller
             'user' => $request->user()->load(['role', 'manager', 'secondaryApprover', 'actingManager']),
             'type' => $type,
             'reasonCategories' => $this->discountReasonCategories(),
+            'leaveCalendar' => $type === 'leave' ? $leaveCalendar->monthCalendar($request->query('month')) : null,
+            'leaveBalance' => $type === 'leave' ? $leaveCalendar->balanceFor($request->user()) : null,
         ]);
     }
 
-    public function store(Request $request, ApprovalWorkflowService $workflow): RedirectResponse
+    public function store(Request $request, ApprovalWorkflowService $workflow, LeaveCalendarService $leaveCalendar): RedirectResponse
     {
         $workflowType = $request->input('workflow_type');
 
         $data = match ($workflowType) {
             'discount' => $this->validatedDiscountData($request),
-            'leave' => $this->validatedLeaveData($request),
+            'leave' => $this->validatedLeaveData($request, $leaveCalendar),
             default => $this->validatedGeneralData($request),
         };
 
@@ -198,15 +201,36 @@ class PortalApprovalRequestController extends Controller
         ];
     }
 
-    private function validatedLeaveData(Request $request): array
+    private function validatedLeaveData(Request $request, LeaveCalendarService $leaveCalendar): array
     {
-        return $request->validate([
+        $validated = $request->validate([
             'workflow_type' => ['required', 'in:leave'],
-            'title' => ['required', 'string', 'max:180'],
+            'title' => ['nullable', 'string', 'max:180'],
             'description' => ['nullable', 'string', 'max:2000'],
             'starts_on' => ['required', 'date'],
             'ends_on' => ['required', 'date', 'after_or_equal:starts_on'],
         ]);
+
+        $workingDays = $leaveCalendar->workingDatesBetween($validated['starts_on'], $validated['ends_on']);
+
+        if ($workingDays['charged_days'] < 1) {
+            throw ValidationException::withMessages([
+                'starts_on' => 'Το διάστημα που επέλεξες δεν έχει εργάσιμη ημέρα προς χρέωση.',
+            ]);
+        }
+
+        return [
+            'workflow_type' => 'leave',
+            'title' => $validated['title'] ?: 'Κανονική άδεια',
+            'description' => $validated['description'] ?? null,
+            'starts_on' => $validated['starts_on'],
+            'ends_on' => $validated['ends_on'],
+            'payload' => [
+                'charged_days' => $workingDays['charged_days'],
+                'charged_dates' => $workingDays['charged_dates'],
+                'excluded_dates' => $workingDays['excluded_dates'],
+            ],
+        ];
     }
 
     private function validatedGeneralData(Request $request): array

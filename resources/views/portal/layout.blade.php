@@ -1196,6 +1196,302 @@
             box-shadow: 0 18px 50px rgba(22,32,51,.06);
             padding: 22px;
         }
+        .leave-calendar-page {
+            display: grid;
+            gap: 18px;
+        }
+        .leave-hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            border: 1px solid #cfdbea;
+            border-radius: 34px;
+            background:
+                radial-gradient(circle at 12% 10%, rgba(255,255,255,.95), transparent 34%),
+                linear-gradient(135deg, #ffffff, #edf4fb);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+        .leave-hero h2 {
+            margin-top: 8px;
+            color: var(--navy);
+        }
+        .leave-balance-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(110px, 1fr));
+            gap: 10px;
+        }
+        .leave-balance-strip span {
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: rgba(255,255,255,.82);
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 850;
+            padding: 12px;
+        }
+        .leave-balance-strip strong {
+            display: block;
+            color: var(--ink);
+            font-size: 22px;
+            line-height: 1.1;
+        }
+        .leave-calendar-surface,
+        .leave-admin-surface {
+            box-shadow: var(--shadow);
+        }
+        .calendar-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .calendar-toolbar > div {
+            text-align: center;
+        }
+        .leave-weekdays,
+        .leave-calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 8px;
+        }
+        .leave-weekdays {
+            margin-bottom: 8px;
+        }
+        .leave-weekdays span {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 950;
+            letter-spacing: .12em;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        .leave-day {
+            min-height: 132px;
+            border: 1px solid #dde7f2;
+            border-radius: 18px;
+            background: #fbfdff;
+            padding: 10px;
+            overflow: hidden;
+        }
+        .leave-day.today {
+            border-color: #9fb2cc;
+            box-shadow: inset 0 0 0 2px rgba(159,178,204,.24);
+        }
+        .leave-day.weekend,
+        .leave-day.muted-day {
+            background: #f4f7fb;
+            color: #94a3b8;
+        }
+        .leave-day-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 7px;
+        }
+        .leave-day-head strong {
+            font-size: 15px;
+            font-weight: 950;
+        }
+        .calendar-chip {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: white;
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 950;
+            letter-spacing: .06em;
+            padding: 3px 6px;
+            text-transform: uppercase;
+        }
+        .calendar-chip.holiday {
+            border-color: #ffd6a8;
+            background: #fff7ed;
+            color: var(--amber);
+        }
+        .calendar-event {
+            display: grid;
+            gap: 1px;
+            border-radius: 12px;
+            margin-top: 5px;
+            padding: 6px 7px;
+            font-size: 11px;
+            font-weight: 850;
+            line-height: 1.18;
+        }
+        .calendar-event strong,
+        .calendar-event span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .calendar-event span {
+            color: var(--muted);
+            font-size: 10px;
+        }
+        .calendar-event.leave.approved {
+            border: 1px solid #b7efd9;
+            background: #effdf7;
+            color: var(--green);
+        }
+        .calendar-event.leave.pending {
+            border: 1px solid #ffe0a8;
+            background: #fffbeb;
+            color: var(--amber);
+        }
+        .calendar-event.birthday {
+            border: 1px solid #c8d7ff;
+            background: #f1f5ff;
+            color: #244478;
+        }
+        .calendar-event.holiday {
+            border: 1px solid #ffd6a8;
+            background: #fff7ed;
+            color: var(--amber);
+        }
+        .calendar-more {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 900;
+        }
+        .leave-balance-table {
+            display: grid;
+            gap: 10px;
+        }
+        .leave-balance-row {
+            display: grid;
+            grid-template-columns: minmax(220px, 1fr) 120px 120px minmax(150px, .6fr) auto;
+            align-items: end;
+            gap: 10px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: var(--ice);
+            padding: 12px;
+        }
+        .leave-person strong,
+        .leave-person span,
+        .leave-balance-row label span,
+        .leave-mini-metrics span,
+        .leave-mini-metrics strong {
+            display: block;
+        }
+        .leave-person strong {
+            font-weight: 950;
+        }
+        .leave-person span,
+        .leave-balance-row label span,
+        .leave-mini-metrics span {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 850;
+        }
+        .leave-balance-row input {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: white;
+            padding: 10px;
+        }
+        .leave-mini-metrics strong {
+            margin-top: 4px;
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 950;
+        }
+        .approval-leave .field:has(input[type="date"]) {
+            display: none;
+        }
+        .leave-request-picker {
+            border: 1px solid #d7e2ee;
+            border-radius: 28px;
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            padding: 18px;
+            box-shadow: 0 18px 42px rgba(22,32,51,.06);
+        }
+        .leave-picker-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin: 16px 0;
+        }
+        .leave-picker-summary span {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: white;
+            padding: 12px;
+        }
+        .leave-picker-summary strong,
+        .leave-picker-summary small {
+            display: block;
+        }
+        .leave-picker-summary strong {
+            color: var(--ink);
+            font-size: 15px;
+            font-weight: 950;
+        }
+        .leave-picker-summary small {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 850;
+        }
+        .leave-range-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 8px;
+        }
+        .leave-range-day {
+            min-height: 82px;
+            border: 1px solid #dde7f2;
+            border-radius: 16px;
+            background: #fbfdff;
+            color: var(--ink);
+            cursor: pointer;
+            padding: 9px;
+            text-align: left;
+            transition: .16s ease;
+        }
+        .leave-range-day:hover {
+            border-color: #9fb2cc;
+            transform: translateY(-1px);
+        }
+        .leave-range-day strong,
+        .leave-range-day span {
+            display: block;
+        }
+        .leave-range-day strong {
+            font-size: 15px;
+            font-weight: 950;
+        }
+        .leave-range-day span {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 850;
+            line-height: 1.2;
+        }
+        .leave-range-day.muted-day {
+            opacity: .45;
+        }
+        .leave-range-day[data-working="0"] {
+            background: #f4f7fb;
+        }
+        .leave-range-day.is-selected {
+            border-color: #17263d;
+            background: #17263d;
+            color: white;
+        }
+        .leave-range-day.is-selected span {
+            color: rgba(255,255,255,.7);
+        }
+        .leave-range-day.is-in-range {
+            border-color: #b9c8dc;
+            background: #edf4fb;
+        }
         .primary-action {
             justify-self: start;
             background: var(--navy);
@@ -1250,6 +1546,15 @@
             .organization-page { gap: 10px; }
             .organization-page .topbar { gap: 10px; }
             .organization-page .topbar .muted { display: none; }
+            .leave-hero,
+            .calendar-toolbar { align-items: stretch; flex-direction: column; }
+            .leave-balance-strip { grid-template-columns: 1fr; }
+            .leave-picker-summary { grid-template-columns: 1fr; }
+            .leave-weekdays { display: none; }
+            .leave-calendar-grid { grid-template-columns: 1fr; }
+            .leave-range-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .leave-day { min-height: auto; }
+            .leave-balance-row { grid-template-columns: 1fr; }
             .org-company-card { padding: 12px 14px; border-radius: 20px; }
             .org-company-card h2 { font-size: 18px; }
             .org-directorate-grid { gap: 10px; }
@@ -1301,6 +1606,82 @@
                 }
             });
         }, true);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const picker = document.querySelector('[data-leave-picker]');
+            if (!picker) {
+                return;
+            }
+
+            const form = picker.closest('form');
+            const startInput = form?.querySelector('input[name="starts_on"]');
+            const endInput = form?.querySelector('input[name="ends_on"]');
+            const days = [...picker.querySelectorAll('[data-date]')];
+            const rangeLabel = picker.querySelector('[data-leave-range-label]');
+            const daysLabel = picker.querySelector('[data-leave-days-label]');
+            let start = picker.dataset.initialStart || startInput?.value || null;
+            let end = picker.dataset.initialEnd || endInput?.value || null;
+
+            const formatDate = (value) => {
+                if (!value) return '';
+                const [year, month, day] = value.split('-');
+                return `${day}/${month}/${year}`;
+            };
+
+            const normalizeRange = () => {
+                if (start && end && start > end) {
+                    [start, end] = [end, start];
+                }
+            };
+
+            const update = () => {
+                normalizeRange();
+
+                if (startInput) startInput.value = start || '';
+                if (endInput) endInput.value = end || start || '';
+
+                let chargedDays = 0;
+                days.forEach((button) => {
+                    const date = button.dataset.date;
+                    const selected = date === start || date === end;
+                    const inRange = start && (end || start) && date >= start && date <= (end || start);
+
+                    button.classList.toggle('is-selected', selected);
+                    button.classList.toggle('is-in-range', Boolean(inRange && !selected));
+
+                    if (inRange && button.dataset.working === '1') {
+                        chargedDays++;
+                    }
+                });
+
+                if (rangeLabel) {
+                    rangeLabel.textContent = start
+                        ? `${formatDate(start)}${end && end !== start ? ` - ${formatDate(end)}` : ''}`
+                        : 'Δεν έχεις επιλέξει ημέρες';
+                }
+
+                if (daysLabel) {
+                    daysLabel.textContent = chargedDays;
+                }
+            };
+
+            days.forEach((button) => {
+                button.addEventListener('click', () => {
+                    const date = button.dataset.date;
+
+                    if (!start || (start && end)) {
+                        start = date;
+                        end = null;
+                    } else {
+                        end = date;
+                    }
+
+                    update();
+                });
+            });
+
+            update();
+        });
     </script>
 </head>
 <body>

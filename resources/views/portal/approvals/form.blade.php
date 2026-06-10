@@ -37,6 +37,63 @@
             @csrf
             <input type="hidden" name="workflow_type" value="{{ $selectedWorkflow }}">
 
+            @if ($isLeave && $leaveCalendar)
+                @php
+                    $rangeWeekdays = ['Δευ', 'Τρι', 'Τετ', 'Πεμ', 'Παρ', 'Σαβ', 'Κυρ'];
+                    $oldStart = old('starts_on');
+                    $oldEnd = old('ends_on');
+                @endphp
+
+                <section class="leave-request-picker" data-leave-picker data-initial-start="{{ $oldStart }}" data-initial-end="{{ $oldEnd }}">
+                    <div class="calendar-toolbar">
+                        <a class="button" href="{{ route('portal.approvals.create', ['type' => 'leave', 'month' => $leaveCalendar['previous']->format('Y-m')]) }}">Προηγούμενος</a>
+                        <div>
+                            <div class="eyebrow">Επιλογή ημερών</div>
+                            <h2>{{ $leaveCalendar['month']->translatedFormat('F Y') }}</h2>
+                            <p class="muted">Πάτα μία ημέρα για μονοήμερη άδεια ή πάτα αρχή και τέλος για διάστημα.</p>
+                        </div>
+                        <a class="button" href="{{ route('portal.approvals.create', ['type' => 'leave', 'month' => $leaveCalendar['next']->format('Y-m')]) }}">Επόμενος</a>
+                    </div>
+
+                    <div class="leave-picker-summary">
+                        <span><strong data-leave-range-label>Δεν έχεις επιλέξει ημέρες</strong><small>Επιλεγμένο διάστημα</small></span>
+                        <span><strong data-leave-days-label>0</strong><small>Χρεώσιμες εργάσιμες</small></span>
+                        @if ($leaveBalance)
+                            <span><strong>{{ number_format($leaveBalance['remaining_now'], 1) }}</strong><small>Διαθέσιμες σήμερα</small></span>
+                        @endif
+                    </div>
+
+                    <div class="leave-weekdays">
+                        @foreach ($rangeWeekdays as $weekday)
+                            <span>{{ $weekday }}</span>
+                        @endforeach
+                    </div>
+
+                    <div class="leave-range-grid">
+                        @foreach ($leaveCalendar['weeks'] as $week)
+                            @foreach ($week as $day)
+                                <button
+                                    class="leave-range-day {{ !$day['is_current_month'] ? 'muted-day' : '' }} {{ $day['is_today'] ? 'today' : '' }}"
+                                    type="button"
+                                    data-date="{{ $day['date'] }}"
+                                    data-working="{{ $day['is_working'] ? '1' : '0' }}"
+                                    data-note="{{ $day['holiday'] ?: ($day['is_weekend'] ? 'Σαββατοκύριακο' : '') }}"
+                                >
+                                    <strong>{{ $day['day'] }}</strong>
+                                    @if ($day['holiday'])
+                                        <span>{{ $day['holiday'] }}</span>
+                                    @elseif ($day['is_weekend'])
+                                        <span>ΣΚ</span>
+                                    @else
+                                        <span>εργάσιμη</span>
+                                    @endif
+                                </button>
+                            @endforeach
+                        @endforeach
+                    </div>
+                </section>
+            @endif
+
             @if ($isLeave)
                 <div class="portal-grid two-even">
                     <div class="field">
