@@ -50,7 +50,15 @@ class ApprovalWorkflowService
                 $request->steps()->create($step);
             }
 
-            return $request->load(['requester.role', 'currentApprover.role', 'steps.approver.role']);
+            $request = $request->load(['requester.role', 'currentApprover.role', 'steps.approver.role']);
+
+            if ($request->status === 'pending') {
+                app(PortalNotificationService::class)->notifyApprovalPending($request);
+            } elseif ($request->status === 'approved') {
+                app(PortalNotificationService::class)->notifyApprovalFinalDecision($request);
+            }
+
+            return $request;
         });
     }
 
@@ -110,7 +118,10 @@ class ApprovalWorkflowService
                     'decided_at' => now(),
                 ]);
 
-                return $request->fresh(['requester.role', 'currentApprover.role', 'steps.approver.role']);
+                $request = $request->fresh(['requester.role', 'currentApprover.role', 'steps.approver.role']);
+                app(PortalNotificationService::class)->notifyApprovalFinalDecision($request);
+
+                return $request;
             }
 
             $nextStep = $request->steps()
@@ -125,7 +136,15 @@ class ApprovalWorkflowService
                 'decided_at' => $nextStep ? null : now(),
             ]);
 
-            return $request->fresh(['requester.role', 'currentApprover.role', 'steps.approver.role']);
+            $request = $request->fresh(['requester.role', 'currentApprover.role', 'steps.approver.role']);
+
+            if ($request->status === 'pending') {
+                app(PortalNotificationService::class)->notifyApprovalPending($request);
+            } elseif ($request->status === 'approved') {
+                app(PortalNotificationService::class)->notifyApprovalFinalDecision($request);
+            }
+
+            return $request;
         });
     }
 

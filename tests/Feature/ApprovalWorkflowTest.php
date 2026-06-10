@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\ApprovalRequest;
+use App\Models\PortalNotification;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\ApprovalWorkflowService;
@@ -57,12 +58,14 @@ class ApprovalWorkflowTest extends TestCase
         $this->assertSame('pending', $request->status);
         $this->assertSame($manager->id, $request->current_approver_id);
         $this->assertSame(1, $request->steps()->count());
+        $this->assertSame(1, PortalNotification::where('recipient_id', $manager->id)->where('type', 'LEAVE_APPROVAL_REQUESTED')->count());
 
         $updated = $workflow->decide($manager->load('role'), $request, 'approve', 'OK');
 
         $this->assertSame('approved', $updated->status);
         $this->assertNull($updated->current_approver_id);
         $this->assertSame('approved', ApprovalRequest::first()->steps()->first()->status);
+        $this->assertSame(1, PortalNotification::where('recipient_id', $requester->id)->where('type', 'LEAVE_APPROVED')->count());
     }
 
     public function test_discount_up_to_four_percent_is_auto_approved(): void

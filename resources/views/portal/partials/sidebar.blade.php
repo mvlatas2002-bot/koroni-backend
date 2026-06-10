@@ -1,5 +1,5 @@
 @php
-    use App\Models\ApprovalRequest;
+    use App\Services\PortalNotificationService;
     use App\Support\PortalAccess;
 
     $permissions = PortalAccess::permissions($user);
@@ -8,10 +8,7 @@
     $departmentName = $user->department?->name ?? 'Χωρίς οργανωτική μονάδα';
     $activeRoute = request()->route()?->getName() ?? '';
     $activePath = trim(request()->path(), '/');
-    $notificationCount = ApprovalRequest::query()
-        ->where('status', 'pending')
-        ->where(fn ($query) => $query->where('current_approver_id', $user->id)->orWhere('requester_id', $user->id))
-        ->count();
+    $notificationCount = app(PortalNotificationService::class)->unreadCount($user);
 
     $icons = [
         'home' => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.8 11.2 12 4.4l8.2 6.8M5.8 10.2v8a1.6 1.6 0 0 0 1.6 1.6h2.8v-5.4h3.6v5.4h2.8a1.6 1.6 0 0 0 1.6-1.6v-8"/></svg>',
@@ -131,7 +128,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v3M17 4v3M5.5 8h13M6.8 6h10.4A2.3 2.3 0 0 1 19.5 8.3v10.4a2.3 2.3 0 0 1-2.3 2.3H6.8a2.3 2.3 0 0 1-2.3-2.3V8.3A2.3 2.3 0 0 1 6.8 6Z"/></svg>
         </a>
 
-        <a class="account-action-button has-badge" href="{{ $permissions['can_approve_requests'] ? route('portal.approvals.pending') : route('portal.approvals.index') }}" aria-label="Κέντρο ειδοποιήσεων">
+        <a class="account-action-button has-badge" href="{{ route('portal.notifications.index') }}" aria-label="Κέντρο ειδοποιήσεων">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9.4a6 6 0 1 0-12 0c0 6-2.2 6.8-2.2 6.8h16.4S18 15.4 18 9.4ZM9.7 19.2a2.6 2.6 0 0 0 4.6 0"/></svg>
             @if ($notificationCount > 0)
                 <span>{{ $notificationCount > 9 ? '9+' : $notificationCount }}</span>
@@ -166,7 +163,7 @@
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12.2a4.1 4.1 0 1 0 0-8.2 4.1 4.1 0 0 0 0 8.2Zm-7.1 7.3c.9-3.6 3.5-5.4 7.1-5.4s6.2 1.8 7.1 5.4"/></svg>
                     <span>Προφίλ και λογαριασμός</span>
                 </a>
-                <a class="account-menu-link" href="{{ $permissions['can_approve_requests'] ? route('portal.approvals.pending') : route('portal.approvals.index') }}">
+                <a class="account-menu-link" href="{{ route('portal.notifications.index') }}">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9.4a6 6 0 1 0-12 0c0 6-2.2 6.8-2.2 6.8h16.4S18 15.4 18 9.4ZM9.7 19.2a2.6 2.6 0 0 0 4.6 0"/></svg>
                     <span>Κέντρο ειδοποιήσεων</span>
                 </a>

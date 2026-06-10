@@ -7,8 +7,10 @@ use App\Http\Controllers\PortalDashboardController;
 use App\Http\Controllers\PortalDepartmentController;
 use App\Http\Controllers\PortalLeaveCalendarController;
 use App\Http\Controllers\PortalModuleController;
+use App\Http\Controllers\PortalNotificationController;
 use App\Http\Controllers\PortalOrganizationController;
 use App\Http\Controllers\PortalProfileController;
+use App\Http\Controllers\PortalPushSubscriptionController;
 use App\Http\Controllers\PortalUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +33,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', PortalDashboardController::class)->name('portal.dashboard');
     Route::get('/profile', [PortalProfileController::class, 'edit'])->name('portal.profile.edit');
     Route::put('/profile', [PortalProfileController::class, 'update'])->name('portal.profile.update');
+    Route::get('/notifications', [PortalNotificationController::class, 'index'])->name('portal.notifications.index');
+    Route::post('/notifications/mark-all-read', [PortalNotificationController::class, 'markAllRead'])->name('portal.notifications.mark-all-read');
+    Route::get('/notifications/{notification}/open', [PortalNotificationController::class, 'open'])->name('portal.notifications.open');
+    Route::post('/push/subscribe', [PortalPushSubscriptionController::class, 'subscribe'])->name('portal.push.subscribe');
+    Route::post('/push/unsubscribe', [PortalPushSubscriptionController::class, 'unsubscribe'])->name('portal.push.unsubscribe');
+    Route::post('/push/test', [PortalPushSubscriptionController::class, 'test'])->name('portal.push.test');
     Route::get('/approval-requests', [PortalApprovalRequestController::class, 'index'])->name('portal.approvals.index');
     Route::get('/approval-requests/pending', [PortalApprovalRequestController::class, 'pending'])->name('portal.approvals.pending');
     Route::get('/approval-requests/create', [PortalApprovalRequestController::class, 'create'])->name('portal.approvals.create');

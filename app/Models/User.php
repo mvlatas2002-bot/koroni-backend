@@ -109,4 +109,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(LeaveBalance::class);
     }
+
+    public function portalNotifications(): HasMany
+    {
+        return $this->hasMany(PortalNotification::class, 'recipient_id');
+    }
+
+    public function notificationPreference(): HasOne
+    {
+        return $this->hasOne(UserNotificationPreference::class);
+    }
+
+    public function pushSubscriptions(): HasMany
+    {
+        return $this->hasMany(PushSubscription::class);
+    }
 }

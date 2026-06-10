@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Koroni Portal' }}</title>
     <style>
         :root {
@@ -1585,6 +1586,100 @@
             .org-person { grid-template-columns: 38px minmax(0, 1fr); }
             .org-person .pill { grid-column: 1 / -1; justify-self: start; }
         }
+        .notifications-page .topbar { padding-right: 0; }
+        .notification-settings {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 22px;
+            align-items: start;
+            margin-bottom: 18px;
+        }
+        .notification-settings-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .notification-settings-actions .primary-action,
+        .notification-status { grid-column: 1 / -1; }
+        .notification-status {
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: var(--ice);
+            color: var(--muted);
+            font-weight: 850;
+            padding: 12px 14px;
+        }
+        .active-devices {
+            grid-column: 1 / -1;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+        .device-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .device-list span {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: white;
+            padding: 7px 10px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .notification-list {
+            display: grid;
+            gap: 10px;
+        }
+        .notification-row {
+            display: grid;
+            grid-template-columns: 12px minmax(0, 1fr) auto;
+            gap: 14px;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: #fbfdff;
+            padding: 14px;
+        }
+        .notification-row.unread {
+            border-color: #bdd4f4;
+            background: linear-gradient(135deg, #fff, #f3f8ff);
+            box-shadow: 0 14px 34px rgba(30, 58, 95, .08);
+        }
+        .notification-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 999px;
+            background: #9aa9bd;
+        }
+        .notification-row.unread .notification-dot { background: var(--red); }
+        .notification-row strong,
+        .notification-row small {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .notification-row small {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .notification-row time {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        @media (max-width: 900px) {
+            .notification-settings { grid-template-columns: 1fr; }
+            .notification-settings-actions { grid-template-columns: 1fr; }
+            .notification-row { grid-template-columns: 10px minmax(0, 1fr); }
+            .notification-row time { grid-column: 2; }
+        }
     </style>
     <script>
         document.addEventListener('toggle', (event) => {
@@ -1690,6 +1785,122 @@
 
             leaveTypeInput?.addEventListener('change', update);
             update();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const panel = document.querySelector('[data-push-panel]');
+            if (!panel) {
+                return;
+            }
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const status = panel.querySelector('[data-push-status]');
+            const enableButton = panel.querySelector('[data-push-enable]');
+            const disableButton = panel.querySelector('[data-push-disable]');
+            const testButton = panel.querySelector('[data-push-test]');
+            const pushReady = panel.dataset.pushReady === '1';
+            const vapidPublicKey = panel.dataset.vapidPublicKey || '';
+
+            const setStatus = (message) => {
+                if (status) status.textContent = message;
+            };
+
+            const urlBase64ToUint8Array = (base64String) => {
+                const padding = '='.repeat((4 - base64String.length % 4) % 4);
+                const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+                const rawData = window.atob(base64);
+                return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+            };
+
+            const postJson = async (url, payload = {}) => {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                return response.json();
+            };
+
+            const currentSubscription = async () => {
+                const registration = await navigator.serviceWorker.register('/sw.js');
+                return {
+                    registration,
+                    subscription: await registration.pushManager.getSubscription(),
+                };
+            };
+
+            const refreshButtons = (enabled) => {
+                if (enableButton) enableButton.disabled = !pushReady || enabled;
+                if (disableButton) disableButton.disabled = !enabled;
+                if (testButton) testButton.disabled = !enabled;
+            };
+
+            if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) {
+                setStatus('Ο browser δεν υποστηρίζει push ειδοποιήσεις.');
+                refreshButtons(false);
+                return;
+            }
+
+            if (!pushReady || !vapidPublicKey) {
+                refreshButtons(false);
+                return;
+            }
+
+            enableButton?.addEventListener('click', async () => {
+                try {
+                    setStatus('Ζητάμε άδεια από τον browser...');
+                    const permission = await Notification.requestPermission();
+
+                    if (permission !== 'granted') {
+                        setStatus('Δεν δόθηκε άδεια για push ειδοποιήσεις.');
+                        return;
+                    }
+
+                    const { registration } = await currentSubscription();
+                    const subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
+                    });
+
+                    await postJson('/push/subscribe', subscription.toJSON());
+                    setStatus('Push ενεργό για αυτή τη συσκευή.');
+                    refreshButtons(true);
+                } catch (error) {
+                    setStatus(`Η ενεργοποίηση απέτυχε: ${error.message}`);
+                }
+            });
+
+            disableButton?.addEventListener('click', async () => {
+                try {
+                    const { subscription } = await currentSubscription();
+                    const endpoint = subscription?.endpoint || null;
+                    await subscription?.unsubscribe().catch(() => undefined);
+                    await postJson('/push/unsubscribe', { endpoint });
+                    setStatus('Push ανενεργό για αυτή τη συσκευή.');
+                    refreshButtons(false);
+                } catch (error) {
+                    setStatus(`Η απενεργοποίηση απέτυχε: ${error.message}`);
+                }
+            });
+
+            testButton?.addEventListener('click', async () => {
+                try {
+                    setStatus('Στέλνουμε δοκιμαστική ειδοποίηση...');
+                    await postJson('/push/test');
+                    setStatus('Η δοκιμή στάλθηκε. Αν η συσκευή επιτρέπει ειδοποιήσεις, θα εμφανιστεί push.');
+                } catch (error) {
+                    setStatus(`Η δοκιμή απέτυχε: ${error.message}`);
+                }
+            });
         });
     </script>
 </head>
