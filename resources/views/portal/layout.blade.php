@@ -2109,6 +2109,314 @@
             .org-person { grid-template-columns: 38px minmax(0, 1fr); }
             .org-person .pill { grid-column: 1 / -1; justify-self: start; }
         }
+        .sales-program-page .topbar { padding-right: 430px; }
+        .sales-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .sales-segment {
+            display: inline-flex;
+            gap: 6px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: rgba(255,255,255,.72);
+            padding: 5px;
+        }
+        .sales-segment a {
+            border-radius: 15px;
+            color: var(--muted);
+            font-weight: 950;
+            padding: 9px 13px;
+        }
+        .sales-segment a.active {
+            background: var(--navy);
+            color: white;
+            box-shadow: 0 12px 24px rgba(22,32,51,.12);
+        }
+        .sales-date-form label,
+        .sales-area-form label {
+            display: grid;
+            gap: 5px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 950;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+        .sales-date-form input,
+        .sales-area-form input,
+        .sales-stop-form input {
+            min-height: 42px;
+            border: 1px solid var(--line);
+            border-radius: 15px;
+            background: #fbfdff;
+            color: var(--ink);
+            padding: 9px 12px;
+            font-weight: 800;
+            outline: none;
+        }
+        .sales-date-form input:focus,
+        .sales-area-form input:focus,
+        .sales-stop-form input:focus {
+            border-color: #a9bad0;
+            box-shadow: 0 0 0 4px rgba(30,58,95,.06);
+        }
+        .sales-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+        .sales-stat-strip {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .sales-stat-strip span {
+            min-height: 46px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: var(--ice);
+            color: var(--muted);
+            font-weight: 900;
+            padding: 8px 14px;
+        }
+        .sales-stat-strip strong {
+            color: var(--ink);
+            font-size: 18px;
+        }
+        .sales-stat-strip .green strong { color: var(--green); }
+        .sales-day-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+        .sales-day-card {
+            display: grid;
+            gap: 16px;
+        }
+        .sales-card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .sales-card-head > div:first-child {
+            position: relative;
+            min-width: 0;
+            padding-left: 22px;
+        }
+        .sales-card-head strong {
+            display: block;
+            font-size: 18px;
+            line-height: 1.15;
+        }
+        .sales-card-head p {
+            margin-top: 4px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+        .sales-dot {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 11px;
+            height: 11px;
+            border-radius: 999px;
+            background: #fb7185;
+            box-shadow: 0 0 0 4px rgba(251,113,133,.12);
+        }
+        .sales-dot.on {
+            background: var(--green);
+            box-shadow: 0 0 0 4px rgba(8,127,91,.13);
+        }
+        .sales-dot.done {
+            background: #94a3b8;
+            box-shadow: 0 0 0 4px rgba(148,163,184,.13);
+        }
+        .sales-primary-action {
+            border: 0;
+            border-radius: 16px;
+            background: var(--navy);
+            color: white;
+            cursor: pointer;
+            font-weight: 950;
+            padding: 11px 14px;
+            box-shadow: 0 14px 28px rgba(22,32,51,.14);
+        }
+        .sales-stop-list {
+            display: grid;
+            gap: 9px;
+        }
+        .sales-stop {
+            display: grid;
+            grid-template-columns: 30px minmax(0, 1fr);
+            gap: 10px;
+            align-items: start;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: var(--ice);
+            padding: 11px;
+        }
+        .sales-stop > span {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: white;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 950;
+        }
+        .sales-stop strong,
+        .sales-stop p,
+        .sales-stop small {
+            display: block;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sales-stop p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+        }
+        .sales-stop small {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+        .sales-area-form {
+            display: flex;
+            align-items: end;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .sales-area-form label { min-width: min(360px, 100%); }
+        .sales-plan-list {
+            display: grid;
+            gap: 12px;
+        }
+        .sales-rep-plan {
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            background: #fbfdff;
+            overflow: hidden;
+        }
+        .sales-rep-plan summary {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            cursor: pointer;
+            padding: 16px 18px;
+        }
+        .sales-rep-plan summary::-webkit-details-marker { display: none; }
+        .sales-rep-plan summary strong,
+        .sales-rep-plan summary small {
+            display: block;
+        }
+        .sales-rep-plan summary small {
+            margin-top: 3px;
+            color: var(--muted);
+            font-weight: 800;
+        }
+        .sales-rep-plan summary > span:last-child {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: white;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 950;
+            padding: 7px 10px;
+            white-space: nowrap;
+        }
+        .sales-week-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            border-top: 1px solid var(--line);
+            padding: 14px;
+        }
+        .sales-week-card {
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: white;
+            padding: 12px;
+        }
+        .sales-week-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .sales-week-title span {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 900;
+        }
+        .sales-stop-form {
+            display: grid;
+            grid-template-columns: minmax(130px, 1fr) minmax(130px, 1fr) minmax(130px, 1fr) auto;
+            gap: 8px;
+            align-items: center;
+            border-top: 1px solid #eef3f8;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        .sales-stop-form.compact {
+            grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr) minmax(120px, 1fr) auto;
+        }
+        .sales-stop-form input:disabled {
+            opacity: .75;
+            cursor: not-allowed;
+        }
+        .sales-delete-form {
+            margin: 6px 0 0;
+            text-align: right;
+        }
+        .sales-delete-form button {
+            border: 0;
+            background: transparent;
+            color: var(--red);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 900;
+        }
+        @media (max-width: 1180px) {
+            .sales-day-grid,
+            .sales-week-grid { grid-template-columns: 1fr; }
+            .sales-stop-form,
+            .sales-stop-form.compact { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 720px) {
+            .sales-program-page .topbar { padding-right: 0; }
+            .sales-toolbar,
+            .sales-hero,
+            .sales-card-head,
+            .sales-area-form {
+                align-items: stretch;
+                flex-direction: column;
+            }
+            .sales-segment {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+            .sales-stat-strip { justify-content: flex-start; }
+            .sales-stat-strip span { width: 100%; justify-content: space-between; }
+        }
         .notifications-page .topbar { padding-right: 0; }
         .notification-settings {
             display: grid;

@@ -41,6 +41,10 @@ class PortalModuleController extends Controller
             return redirect()->route('portal.organization.index');
         }
 
+        if ($moduleKey === 'SALES_PROGRAM') {
+            return redirect()->route('portal.sales-program.index');
+        }
+
         $widgets = collect(config('portal.widgets'))
             ->filter(fn (array $widget) => ($widget['module'] ?? null) === $moduleKey)
             ->map(fn (array $widget, string $key) => [

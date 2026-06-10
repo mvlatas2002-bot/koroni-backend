@@ -23,7 +23,7 @@
 
     $groups = [
         ['label' => 'Πωλητές', 'description' => 'Πρόγραμμα ημέρας', 'icon' => 'sales', 'visible' => $permissions['can_view_sales_program'], 'items' => [
-            ['label' => 'Πρόγραμμα πωλητών', 'href' => route('portal.modules.show', 'sales_program')],
+            ['label' => 'Πρόγραμμα πωλητών', 'href' => route('portal.sales-program.index')],
         ]],
         ['label' => 'Εκπτώσεις', 'description' => 'Αιτήσεις και εγκρίσεις', 'icon' => 'discounts', 'items' => [
             ['label' => 'Νέα έκπτωση', 'href' => route('portal.approvals.create', ['type' => 'discount'])],

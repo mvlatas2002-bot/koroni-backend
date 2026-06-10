@@ -124,4 +124,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(PushSubscription::class);
     }
+
+    public function salesProgramStops(): HasMany
+    {
+        return $this->hasMany(SalesProgramStop::class, 'sales_rep_id');
+    }
+
+    public function salesProgramDayStatuses(): HasMany
+    {
+        return $this->hasMany(SalesProgramDayStatus::class, 'sales_rep_id');
+    }
 }

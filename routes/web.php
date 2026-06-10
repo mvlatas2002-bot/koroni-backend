@@ -11,6 +11,7 @@ use App\Http\Controllers\PortalNotificationController;
 use App\Http\Controllers\PortalOrganizationController;
 use App\Http\Controllers\PortalProfileController;
 use App\Http\Controllers\PortalPushSubscriptionController;
+use App\Http\Controllers\PortalSalesProgramController;
 use App\Http\Controllers\PortalUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/approval-requests/{approvalRequest}/decision', [PortalApprovalRequestController::class, 'decide'])->name('portal.approvals.decide');
     Route::get('/leave-calendar', [PortalLeaveCalendarController::class, 'index'])->name('portal.leave-calendar.index');
     Route::put('/leave-balances/{user}', [PortalLeaveCalendarController::class, 'updateBalance'])->name('portal.leave-balances.update');
+    Route::get('/sales-program', [PortalSalesProgramController::class, 'index'])->name('portal.sales-program.index');
+    Route::post('/sales-program/areas', [PortalSalesProgramController::class, 'storeArea'])->name('portal.sales-program.areas.store');
+    Route::post('/sales-program/stops', [PortalSalesProgramController::class, 'storeStop'])->name('portal.sales-program.stops.store');
+    Route::delete('/sales-program/stops/{stop}', [PortalSalesProgramController::class, 'destroyStop'])->name('portal.sales-program.stops.destroy');
+    Route::post('/sales-program/day/start', [PortalSalesProgramController::class, 'startDay'])->name('portal.sales-program.day.start');
+    Route::post('/sales-program/day/end', [PortalSalesProgramController::class, 'endDay'])->name('portal.sales-program.day.end');
     Route::get('/approval-authorities', [PortalApprovalAuthorityController::class, 'index'])->name('portal.approval-authorities.index');
     Route::post('/approval-authorities', [PortalApprovalAuthorityController::class, 'store'])->name('portal.approval-authorities.store');
     Route::put('/approval-authorities/{approvalAuthority}', [PortalApprovalAuthorityController::class, 'update'])->name('portal.approval-authorities.update');

@@ -29,7 +29,9 @@ class PortalAccessControlTest extends TestCase
     {
         $sales = $this->userWithRole('SALES_REP');
 
-        $this->actingAs($sales)->get(route('portal.modules.show', 'SALES_PROGRAM'))->assertOk();
+        $this->actingAs($sales)
+            ->get(route('portal.modules.show', 'SALES_PROGRAM'))
+            ->assertRedirect(route('portal.sales-program.index'));
     }
 
     public function test_system_admin_can_access_people_admin_and_modules(): void

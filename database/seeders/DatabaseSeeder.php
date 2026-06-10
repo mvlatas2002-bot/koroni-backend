@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             ApprovalAuthoritySeeder::class,
             CompanyHolidaySeeder::class,
             LeaveBalanceSeeder::class,
+            SalesProgramSeeder::class,
         ]);
 
         if (EmployeeAssignment::count() === 0) {
