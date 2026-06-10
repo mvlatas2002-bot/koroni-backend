@@ -35,7 +35,9 @@ class ApprovalSectionsTest extends TestCase
             ->get(route('portal.approvals.create', ['type' => 'leave']))
             ->assertOk()
             ->assertSee('Νέα αίτηση άδειας')
-            ->assertSee('Τίτλος άδειας')
+            ->assertSee('Τύπος άδειας')
+            ->assertSee('Κανονική άδεια')
+            ->assertSee('Αναρρωτική άδεια')
             ->assertSee('Επιλογή ημερών')
             ->assertDontSee('Κανονική τιμή');
 
@@ -47,7 +49,7 @@ class ApprovalSectionsTest extends TestCase
             ->assertSee('Κωδικός πελάτη')
             ->assertSee('Κανονική τιμή')
             ->assertSee('Ζητούμενη τιμή')
-            ->assertDontSee('Τίτλος άδειας');
+            ->assertDontSee('Τύπος άδειας');
     }
 
     private function userWithRole(string $roleCode): User

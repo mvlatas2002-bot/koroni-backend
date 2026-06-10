@@ -61,6 +61,7 @@ class PortalApprovalRequestController extends Controller
             'user' => $request->user()->load(['role', 'manager', 'secondaryApprover', 'actingManager']),
             'type' => $type,
             'reasonCategories' => $this->discountReasonCategories(),
+            'leaveTypes' => $type === 'leave' ? $this->leaveTypes() : [],
             'leaveCalendar' => $type === 'leave' ? $leaveCalendar->monthCalendar($request->query('month')) : null,
             'leaveBalance' => $type === 'leave' ? $leaveCalendar->balanceFor($request->user()) : null,
         ]);
@@ -205,7 +206,7 @@ class PortalApprovalRequestController extends Controller
     {
         $validated = $request->validate([
             'workflow_type' => ['required', 'in:leave'],
-            'title' => ['nullable', 'string', 'max:180'],
+            'title' => ['required', 'string', Rule::in($this->leaveTypes())],
             'description' => ['nullable', 'string', 'max:2000'],
             'starts_on' => ['required', 'date'],
             'ends_on' => ['required', 'date', 'after_or_equal:starts_on'],
@@ -221,7 +222,7 @@ class PortalApprovalRequestController extends Controller
 
         return [
             'workflow_type' => 'leave',
-            'title' => $validated['title'] ?: 'Κανονική άδεια',
+            'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
             'starts_on' => $validated['starts_on'],
             'ends_on' => $validated['ends_on'],
@@ -241,6 +242,20 @@ class PortalApprovalRequestController extends Controller
             'description' => ['nullable', 'string', 'max:2000'],
             'amount' => ['nullable', 'numeric', 'min:0'],
         ]);
+    }
+
+    private function leaveTypes(): array
+    {
+        return [
+            'Κανονική άδεια',
+            'Έκτακτη άδεια',
+            'Αναρρωτική άδεια',
+            'Άδεια άνευ αποδοχών',
+            'Γονική άδεια',
+            'Άδεια γάμου',
+            'Άδεια πένθους',
+            'Ειδική άδεια',
+        ];
     }
 
     private function discountReasonCategories(): array

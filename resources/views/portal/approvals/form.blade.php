@@ -97,8 +97,12 @@
             @if ($isLeave)
                 <div class="portal-grid two-even">
                     <div class="field">
-                        <label>Τίτλος άδειας</label>
-                        <input name="title" value="{{ old('title', 'Κανονική άδεια') }}" required>
+                        <label>Τύπος άδειας</label>
+                        <select name="title" required>
+                            @foreach ($leaveTypes ?? [] as $leaveType)
+                                <option value="{{ $leaveType }}" @selected(old('title', 'Κανονική άδεια') === $leaveType)>{{ $leaveType }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="field">
                         <label>Σύντομη αιτιολογία</label>
